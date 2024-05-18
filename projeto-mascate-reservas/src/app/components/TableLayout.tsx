@@ -1,4 +1,3 @@
-// /components/TableLayout.tsx
 import React, { useState } from 'react';
 import TableModal from './TableModal';
 
@@ -34,13 +33,31 @@ const availability: TableAvailability = {
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time }) => {
   const [selectedTable, setSelectedTable] = useState<{ type: string, number: number } | null>(null);
+  const [confirmedTable, setConfirmedTable] = useState<{ type: string, number: number } | null>(null);
   const formattedDate = date.toISOString().split('T')[0];
 
   // Asserting the type of tables
-  const tables = availability[formattedDate as keyof typeof availability]?.[time as keyof typeof availability[typeof formattedDate]];
+  const tables = availability[formattedDate]?.[time as keyof typeof availability[typeof formattedDate]];
+
 
   const handleTableClick = (type: string, number: number) => {
     setSelectedTable({ type, number });
+  };
+
+  const handleSelectTable = () => {
+    if (selectedTable) {
+      setConfirmedTable(selectedTable);
+      setSelectedTable(null); // Close the modal
+    }
+  };
+
+  const handleReserve = () => {
+    if (confirmedTable) {
+      alert(`Mesa ${confirmedTable.number} (${confirmedTable.type.replace('_', ' ')}) reservada para ${formattedDate} às ${time}`);
+      // Aqui você pode adicionar a lógica para enviar a reserva para o servidor
+    } else {
+      alert("Nenhuma mesa selecionada");
+    }
   };
 
   if (!tables) {
@@ -48,24 +65,30 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time }) => {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4 mt-4">
-      {Object.entries(tables).map(([type, numbers]) =>
-        numbers.map((number: number) => (
-          <div
-            key={`${type}-${number}`}
-            className="p-4 bg-green-200 rounded-lg cursor-pointer hover:bg-green-300"
-            onClick={() => handleTableClick(type, number)}
-          >
-            Mesa {number} ({type.replace('_', ' ')})
-          </div>
-        ))
-      )}
+    <div className="mt-4">
+      <div className="grid grid-cols-3 gap-4">
+        {Object.entries(tables).map(([type, numbers]) =>
+          numbers.map((number: number) => (
+            <div
+              key={`${type}-${number}`}
+              className={`p-4 rounded-lg cursor-pointer transition duration-300 ${
+                confirmedTable?.number === number && confirmedTable?.type === type ? 'bg-blue-300' : 'bg-green-200 hover:bg-green-300'
+              }`}
+              onClick={() => handleTableClick(type, number)}
+            >
+              Mesa {number} ({type.replace('_', ' ')})
+            </div>
+          ))
+        )}
+      </div>
       {selectedTable && (
         <TableModal
           table={selectedTable}
           onClose={() => setSelectedTable(null)}
+          onSelect={handleSelectTable}
         />
       )}
+      
     </div>
   );
 };
