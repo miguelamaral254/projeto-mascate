@@ -17,7 +17,7 @@ type TableAvailability = {
 };
 
 const availability: TableAvailability = {
-  "2024-05-18": {
+  "2024-05-20": {
     "12:00": {
       "6_cadeiras": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       "4_cadeiras": [1, 2, 3, 4, 5, 6],
