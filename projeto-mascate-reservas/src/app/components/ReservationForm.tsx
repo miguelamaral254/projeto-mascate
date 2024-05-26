@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CalendarComponent from './CalendarComponent';
 import TableLayout from './TableLayout';
@@ -33,7 +33,7 @@ const ReservationForm: React.FC = () => {
   const table = watch('table');
 
   const isStep1Complete = customerName && cpf && phoneNumber && employeeId;
-  const isStep2Complete =time && table;
+  const isStep2Complete = time && table;
 
   const onSubmit = async (data: FormData) => {
     const reservationId = uuidv4(); 
@@ -78,27 +78,29 @@ const ReservationForm: React.FC = () => {
           <h2 className="text-xl font-semibold mb-4">Informações do Cliente</h2>
           <div className="mb-4">
             <label className="block text-gray-700">Nome:</label>
-            <input {...register('name')} type="text" className="input-field" />
+            <input {...register('name', { required: true, pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/ })} type="text" className="input-field" />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">CPF:</label>
             <InputMask
-              {...register('cpf')}
+              {...register('cpf', { required: true, pattern: /[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/ })}
               mask="999.999.999-99"
+              inputMode="numeric"
               className="input-field"
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Número de Telefone:</label>
             <InputMask
-              {...register('phoneNumber')}
+              {...register('phoneNumber', { required: true, pattern: /\(\d{2}\) \d{1} \d{4}-\d{4}/ })}
               mask="(99) 9 9999-9999"
+              inputMode="numeric"
               className="input-field"
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">ID do Funcionário:</label>
-            <input {...register('employeeId')} type="text" className="input-field" />
+            <input {...register('employeeId', { required: true, pattern: /^[0-9]*$/ })} type="text" className="input-field" />
           </div>
           <div className="mt-4 flex justify-between">
             <button>
@@ -124,7 +126,7 @@ const ReservationForm: React.FC = () => {
           }} />
           <div className="mb-4">
             <label className="block text-gray-700">Horário:</label>
-            <select {...register('time')} className="input-field" onChange={(e) => handleTimeSelect(e.target.value)}>
+            <select {...register('time', { required: true })} className="input-field" onChange={(e) => handleTimeSelect(e.target.value)}>
               <option value="">Selecione um horário</option>
               {['12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:00'].map((time) => (
                 <option key={time} value={time}>
@@ -154,8 +156,7 @@ const ReservationForm: React.FC = () => {
               onClick={handleNextStep}
               className={`py-2 px-4 rounded-md transition duration-300 ${isStep2Complete ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
               disabled={!isStep2Complete}
-            >
-              Próximo
+            >  Próximo
             </button>
           </div>
         </div>
