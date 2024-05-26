@@ -4,6 +4,7 @@ import TableModal from './TableModal';
 interface TableLayoutProps {
   date: Date;
   time: string;
+  onTableSelect: (table: { type: string, number: number }) => void;
 }
 
 type TableAvailability = {
@@ -17,7 +18,8 @@ type TableAvailability = {
 };
 
 const availability: TableAvailability = {
-  "2024-05-20": {
+  //P/ testes, mudar para data de hoje!!
+  "2024-05-25": {
     "12:00": {
       "6_cadeiras": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       "4_cadeiras": [1, 2, 3, 4, 5, 6],
@@ -31,14 +33,12 @@ const availability: TableAvailability = {
   }
 };
 
-const TableLayout: React.FC<TableLayoutProps> = ({ date, time }) => {
+const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) => {
   const [selectedTable, setSelectedTable] = useState<{ type: string, number: number } | null>(null);
-  const [confirmedTable, setConfirmedTable] = useState<{ type: string, number: number } | null>(null);
   const formattedDate = date.toISOString().split('T')[0];
 
   // Asserting the type of tables
   const tables = availability[formattedDate]?.[time as keyof typeof availability[typeof formattedDate]];
-
 
   const handleTableClick = (type: string, number: number) => {
     setSelectedTable({ type, number });
@@ -46,17 +46,7 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time }) => {
 
   const handleSelectTable = () => {
     if (selectedTable) {
-      setConfirmedTable(selectedTable);
-      setSelectedTable(null); // Close the modal
-    }
-  };
-
-  const handleReserve = () => {
-    if (confirmedTable) {
-      alert(`Mesa ${confirmedTable.number} (${confirmedTable.type.replace('_', ' ')}) reservada para ${formattedDate} às ${time}`);
-      // Aqui você pode adicionar a lógica para enviar a reserva para o servidor
-    } else {
-      alert("Nenhuma mesa selecionada");
+      onTableSelect(selectedTable);
     }
   };
 
@@ -71,9 +61,7 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time }) => {
           numbers.map((number: number) => (
             <div
               key={`${type}-${number}`}
-              className={`p-4 rounded-lg cursor-pointer transition duration-300 ${
-                confirmedTable?.number === number && confirmedTable?.type === type ? 'bg-blue-300' : 'bg-green-200 hover:bg-green-300'
-              }`}
+              className={`p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300`}
               onClick={() => handleTableClick(type, number)}
             >
               Mesa {number} ({type.replace('_', ' ')})

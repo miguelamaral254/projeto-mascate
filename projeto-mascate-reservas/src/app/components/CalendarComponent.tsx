@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -26,6 +25,7 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
         value={date}
         locale="pt-BR"
         formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
+        className="w-full"
       />
     </div>
   );
