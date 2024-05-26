@@ -4,44 +4,42 @@ import TableModal from './TableModal';
 interface TableLayoutProps {
   date: Date;
   time: string;
-  onTableSelect: (table: { type: string, number: number }) => void;
+  onTableSelect: (table: { type: string, number: number, size: string }) => void; // Adicionado size
 }
 
 type TableAvailability = {
   [key: string]: { // Date as a key, e.g., "2024-05-18"
     [key: string]: { // Time as a key, e.g., "12:00"
-      "6_cadeiras": number[];
-      "4_cadeiras": number[];
-      "2_cadeiras": number[];
+      "G": number[]; // Adicionado
+      "M": number[]; // Adicionado
+      "P": number[]; // Adicionado
     };
   };
 };
 
 const availability: TableAvailability = {
-  //P/ testes, mudar para data de hoje!!
   "2024-05-25": {
     "12:00": {
-      "6_cadeiras": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      "4_cadeiras": [1, 2, 3, 4, 5, 6],
-      "2_cadeiras": [1, 2, 3, 4]
+      "G": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "M": [1, 2, 3, 4, 5, 6],
+      "P": [1, 2, 3, 4]
     },
     "13:00": {
-      "6_cadeiras": [1, 3, 4, 5, 6, 7, 8, 9],
-      "4_cadeiras": [1, 3, 4, 5, 6],
-      "2_cadeiras": [1, 2, 3]
+      "G": [1, 3, 4, 5, 6, 7, 8, 9],
+      "M": [1, 3, 4, 5, 6],
+      "P": [1, 2, 3]
     }
   }
 };
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) => {
-  const [selectedTable, setSelectedTable] = useState<{ type: string, number: number } | null>(null);
+  const [selectedTable, setSelectedTable] = useState<{ type: string, number: number, size: string } | null>(null); // Adicionado size
   const formattedDate = date.toISOString().split('T')[0];
 
-  // Asserting the type of tables
   const tables = availability[formattedDate]?.[time as keyof typeof availability[typeof formattedDate]];
 
-  const handleTableClick = (type: string, number: number) => {
-    setSelectedTable({ type, number });
+  const handleTableClick = (type: string, number: number, size: string) => {
+    setSelectedTable({ type, number, size });
   };
 
   const handleSelectTable = () => {
@@ -57,14 +55,14 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(tables).map(([type, numbers]) =>
+        {Object.entries(tables).map(([size, numbers]) => // Alterado size
           numbers.map((number: number) => (
             <div
-              key={`${type}-${number}`}
+              key={`${size}-${number}`} // Alterado size
               className={`p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300`}
-              onClick={() => handleTableClick(type, number)}
+              onClick={() => handleTableClick(size, number, size)} // Alterado size
             >
-              Mesa {number} ({type.replace('_', ' ')})
+              Mesa {number} (Tamanho: {size}) {/* Adicionado */}
             </div>
           ))
         )}
@@ -74,11 +72,11 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
           table={selectedTable}
           onClose={() => setSelectedTable(null)}
           onSelect={handleSelectTable}
-        />
-      )}
-      
-    </div>
-  );
-};
-
-export default TableLayout;
+          />
+        )}
+      </div>
+    );
+  };
+  
+  export default TableLayout;
+       
