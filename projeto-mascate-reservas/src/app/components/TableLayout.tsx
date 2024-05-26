@@ -39,14 +39,13 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
   const formattedDate = date.toISOString().split('T')[0];
   const tables = availability[formattedDate]?.[time as keyof typeof availability[typeof formattedDate]];
 
-  const handleTableClick = (type: string, number: number, size: string) => {
-    const numChairs = size === 'G' ? 8 : size === 'M' ? 6 : 4; // Definindo o número de cadeiras com base no tamanho da mesa
-    setSelectedTable({ type, number, size, numChairs }); // Incluído numChairs
+  const handleTableClick = (type: string, number: number, size: string, numChairs: number) => {
+    setSelectedTable({ type, number, size, numChairs });
   };
 
-  const handleSelectTable = () => {
+  const handleSelectTable = (numChairs: number) => {
     if (selectedTable) {
-      onTableSelect(selectedTable);
+      onTableSelect({ ...selectedTable, numChairs });
     }
   };
 
@@ -62,7 +61,7 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
             <div
               key={`${size}-${number}`}
               className={`p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300`}
-              onClick={() => handleTableClick(size, number, size)}
+              onClick={() => handleTableClick(size, number, size, selectedTable ? selectedTable.numChairs : 0)}
             >
               Mesa {number} (Tamanho: {size}) 
             </div>

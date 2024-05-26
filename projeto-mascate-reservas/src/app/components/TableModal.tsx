@@ -3,9 +3,9 @@ import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
 
 interface TableModalProps {
-  table: { type: string; number: number; size: string };
+  table: { type: string; number: number; size: string; numChairs: number }; 
   onClose: () => void;
-  onSelect: (numChairs: number) => void;
+  onSelect: (numChairs: number) => void; // Pega número de cadeiras como argumento
 }
 
 const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => {
@@ -36,7 +36,6 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
     onClose(); // Fecha o modal após a seleção
     Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.number} com ${numChairs} cadeiras.`, 'success'); // Exibe um alerta informando a seleção
   };
-   
 
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

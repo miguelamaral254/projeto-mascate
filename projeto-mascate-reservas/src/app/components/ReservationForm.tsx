@@ -103,6 +103,7 @@ const ReservationForm: React.FC = () => {
             <button type="button" onClick={handleNextStep}className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
               Próximo
             </button>
+            
           </div>
         </div>
       )}
