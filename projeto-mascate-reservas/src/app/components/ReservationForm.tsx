@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import CalendarComponent from './CalendarComponent';
 import TableLayout from './TableLayout';
@@ -25,13 +25,29 @@ const ReservationForm: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [selectedTable, setSelectedTable] = useState<{ type: string; number: number; numChairs: number } | null>(null);
 
+  const customerName = watch('name');
+  const cpf = watch('cpf');
+  const phoneNumber = watch('phoneNumber');
+  const employeeId = watch('employeeId');
+  const time = watch('time');
+  const table = watch('table');
+
+  const isStep1Complete = customerName && cpf && phoneNumber && employeeId;
+  const isStep2Complete =time && table;
+
   const onSubmit = async (data: FormData) => {
-    const reservationId = uuidv4(); // Gera um ID único para a reserva
+    const reservationId = uuidv4(); 
     data.reservationId = reservationId;
     console.log(data);
+    const confirmationText = 
+      `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras<br/>` +
+      `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
+      `foi realizada com sucesso.<br/>` +
+      `Nome do cliente: ${customerName}<br/>` +
+      `ID do funcionário: ${employeeId}`;
     Swal.fire({
       title: 'Reserva Realizada',
-      text: `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime} foi realizada com sucesso. ID da reserva: ${reservationId}`,
+      html: confirmationText,
       icon: 'success',
       confirmButtonText: 'OK'
     });
@@ -54,9 +70,6 @@ const ReservationForm: React.FC = () => {
     setValue('table', table);
     setSelectedTable(table);
   };
-
-  const customerName = watch('name');
-  const employeeId = watch('employeeId');
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-white shadow-md rounded-lg">
@@ -91,7 +104,12 @@ const ReservationForm: React.FC = () => {
             <button>
               Cancelar
             </button>
-            <button type="button" onClick={handleNextStep} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className={`py-2 px-4 rounded-md transition duration-300 ${isStep1Complete ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              disabled={!isStep1Complete}
+            >
               Próximo
             </button>
           </div>
@@ -124,10 +142,19 @@ const ReservationForm: React.FC = () => {
             />
           )}
           <div className="mt-4 flex justify-between">
-            <button type="button" onClick={handlePreviousStep} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300">
+            <button
+              type="button"
+              onClick={handlePreviousStep}
+              className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
+            >
               Anterior
             </button>
-            <button type="button" onClick={handleNextStep} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className={`py-2 px-4 rounded-md transition duration-300 ${isStep2Complete ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              disabled={!isStep2Complete}
+            >
               Próximo
             </button>
           </div>

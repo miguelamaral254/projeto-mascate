@@ -7,8 +7,8 @@ interface ConfirmationStepProps {
   selectedTable: { type: string; number: number; numChairs: number } | null;
   onPreviousStep: () => void;
   onSubmit: () => void;
-  customerName: string;  // Adicionado customerName
-  employeeId: string;    // Adicionado employeeId
+  customerName: string;  
+  employeeId: string;  
 }
 
 const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
