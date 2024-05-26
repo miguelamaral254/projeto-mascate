@@ -112,8 +112,8 @@ const ReservationForm: React.FC = () => {
           selectedTime={selectedTime}
           onPreviousStep={handlePreviousStep}
           onSubmit={handleSubmit(onSubmit)}
-          selectedTable={selectedTable} 
-       />
+          selectedTable={selectedTable}
+        />
       )}
     </form>
   );

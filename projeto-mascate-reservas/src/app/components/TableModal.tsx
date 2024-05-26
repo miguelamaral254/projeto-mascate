@@ -33,9 +33,10 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
 
   const handleSelectTable = () => {
     onSelect(numChairs); // Passa o número de cadeiras selecionado para a função onSelect
-    onClose();
-    Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.number} com ${numChairs} cadeiras.`, 'success');
+    onClose(); // Fecha o modal após a seleção
+    Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.number} com ${numChairs} cadeiras.`, 'success'); // Exibe um alerta informando a seleção
   };
+   
 
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

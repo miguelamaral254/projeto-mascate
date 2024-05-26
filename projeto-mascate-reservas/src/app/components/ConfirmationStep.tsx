@@ -4,10 +4,12 @@ import { useForm } from 'react-hook-form';
 interface ConfirmationStepProps {
   selectedDate: Date;
   selectedTime: string;
-  selectedTable: { type: string, number: number, numChairs: number } | null; // Adicionado numChairs
+  selectedTable: { type: string; number: number; numChairs: number } | null;
   onPreviousStep: () => void;
   onSubmit: () => void;
 }
+
+
 
 interface FormData {
   employeeId: string;
