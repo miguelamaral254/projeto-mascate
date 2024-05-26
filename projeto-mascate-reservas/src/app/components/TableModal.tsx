@@ -11,13 +11,21 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
   const [numChairs, setNumChairs] = useState(table.size === 'G' ? 6 : table.size === 'M' ? 4 : 2); // Inicializa o número de cadeiras baseado no tamanho da mesa
 
   const increaseChairs = () => {
-    if (numChairs < (table.size === 'G' ? 8 : table.size === 'M' ? 6 : 4)) { // Verifica se o número de cadeiras não ultrapassa o limite máximo baseado no tamanho da mesa
+    if (table.size === 'G' && numChairs < 8) {
+      setNumChairs(numChairs + 1);
+    } else if (table.size === 'M' && numChairs < 6) {
+      setNumChairs(numChairs + 1);
+    } else if (table.size === 'P' && numChairs < 4) {
       setNumChairs(numChairs + 1);
     }
   };
 
   const decreaseChairs = () => {
-    if (numChairs > (table.size === 'P' ? 2 : 1)) { // Verifica se o número de cadeiras não ultrapassa o limite mínimo baseado no tamanho da mesa
+    if (table.size === 'G' && numChairs > 6) {
+      setNumChairs(numChairs - 1);
+    } else if (table.size === 'M' && numChairs > 4) {
+      setNumChairs(numChairs - 1);
+    } else if (table.size === 'P' && numChairs > 2) {
       setNumChairs(numChairs - 1);
     }
   };
@@ -31,13 +39,13 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
         <p>Número de Cadeiras: {numChairs}</p>
         <div className="mt-4 flex justify-end">
           <button
-            className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mr-2 ${numChairs >= (table.size === 'G' ? 8 : table.size === 'M' ? 6 : 4) && 'opacity-50 cursor-not-allowed'}`} // Desabilita o botão de adicionar se o número de cadeiras atingiu o limite máximo
+            className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mr-2 ${numChairs >= (table.size === 'G' ? 8 : table.size === 'M' ? 6 : 4) && 'opacity-50 cursor-not-allowed'}`}
             onClick={increaseChairs}
           >
             +
           </button>
           <button
-            className={`bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300 ${numChairs <= (table.size === 'P' ? 2 : 1) && 'opacity-50 cursor-not-allowed'}`} // Desabilita o botão de remover se o número de cadeiras atingiu o limite mínimo
+            className={`bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300 ${numChairs <= (table.size === 'G' ? 6 : table.size === 'M' ? 4 : 2) && 'opacity-50 cursor-not-allowed'}`}
             onClick={decreaseChairs}
           >
             -

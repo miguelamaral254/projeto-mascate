@@ -10,13 +10,13 @@ interface TableLayoutProps {
 type TableAvailability = {
   [key: string]: { // Date as a key, e.g., "2024-05-18"
     [key: string]: { // Time as a key, e.g., "12:00"
-      "G": number[]; // Adicionado
-      "M": number[]; // Adicionado
-      "P": number[]; // Adicionado
+      "G": number[]; 
+      "M": number[]; 
+      "P": number[]; 
     };
   };
 };
-
+// Escoras de dados p/ mesas /horários
 const availability: TableAvailability = {
   "2024-05-25": {
     "12:00": {
@@ -55,14 +55,14 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(tables).map(([size, numbers]) => // Alterado size
+        {Object.entries(tables).map(([size, numbers]) => // alter size
           numbers.map((number: number) => (
             <div
               key={`${size}-${number}`} // Alterado size
               className={`p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300`}
-              onClick={() => handleTableClick(size, number, size)} // Alterado size
+              onClick={() => handleTableClick(size, number, size)} // Alter size
             >
-              Mesa {number} (Tamanho: {size}) {/* Adicionado */}
+              Mesa {number} (Tamanho: {size}) 
             </div>
           ))
         )}
