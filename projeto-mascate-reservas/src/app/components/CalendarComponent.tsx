@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface Props {
   onDateChange: (date: Date) => void;
@@ -19,7 +21,12 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md">
-      <Calendar onChange={handleDateChange} value={date} />
+      <Calendar
+        onChange={handleDateChange}
+        value={date}
+        locale="pt-BR"
+        formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
+      />
     </div>
   );
 };

@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CalendarComponent from './CalendarComponent';
 import TableLayout from './TableLayout';
-import Swal from 'sweetalert2';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 interface FormData {
   date: Date;
@@ -18,15 +19,6 @@ const ReservationForm: React.FC = () => {
   const onSubmit = (data: FormData) => {
     console.log(data);
     // Aqui você pode fazer uma requisição para o backend para salvar a reserva
-
-    // Exibir alerta de sucesso
-    Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Reserva salva com sucesso!',
-      showConfirmButton: false,
-      timer: 1500
-    });
   };
 
   return (
