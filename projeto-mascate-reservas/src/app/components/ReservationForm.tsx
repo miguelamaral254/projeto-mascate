@@ -50,9 +50,13 @@ const ReservationForm: React.FC = () => {
       html: confirmationText,
       icon: 'success',
       confirmButtonText: 'OK'
+    }).then(() => {
+      window.location.href = "/";
     });
+
     setCurrentStep(4);
   };
+
 
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
