@@ -10,7 +10,7 @@ interface FormData {
   phoneNumber: string;
   date: Date;
   time: string;
-  table: { type: string; number: number } | null;
+  table: { type: string; number: number, numChairs: number } | null; // Adicionado numChairs
 }
 
 const ReservationForm: React.FC = () => {
@@ -18,6 +18,7 @@ const ReservationForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const [selectedTable, setSelectedTable] = useState<{ type: string; number: number, numChairs: number } | null>(null); // Estado para armazenar a mesa selecionada
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -37,8 +38,9 @@ const ReservationForm: React.FC = () => {
     setSelectedTime(time);
   };
 
-  const handleTableSelect = (table: { type: string; number: number }) => {
+  const handleTableSelect = (table: { type: string; number: number, numChairs: number }) => { // Adicionado numChairs
     setValue('table', table);
+    setSelectedTable(table);
   };
 
   return (
@@ -58,9 +60,14 @@ const ReservationForm: React.FC = () => {
             <label className="block text-gray-700">Número de Telefone:</label>
             <input {...register('phoneNumber')} type="text" className="input-field" />
           </div>
-          <button type="button" onClick={handleNextStep} className="btn-primary">
-            Próximo
-          </button>
+          <div className="mt-4 flex justify-between">
+            <button>
+              Cancelar
+            </button>
+            <button type="button" onClick={handleNextStep} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
+              Próximo
+            </button>
+          </div>
         </div>
       )}
       {currentStep === 2 && (
@@ -86,14 +93,17 @@ const ReservationForm: React.FC = () => {
               date={selectedDate}
               time={selectedTime}
               onTableSelect={handleTableSelect}
+              selectedTable={selectedTable} // Passa a mesa selecionada para TableLayout
             />
           )}
-          <button type="button" onClick={handlePreviousStep} className="btn-secondary mr-2">
-            Anterior
-          </button>
-          <button type="button" onClick={handleNextStep} className="btn-primary">
-            Próximo
-          </button>
+          <div className="mt-4 flex justify-between">
+            <button type="button" onClick={handlePreviousStep} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300">
+              Anterior
+            </button>
+            <button type="button" onClick={handleNextStep}className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">
+              Próximo
+            </button>
+          </div>
         </div>
       )}
       {currentStep === 3 && (
@@ -102,11 +112,12 @@ const ReservationForm: React.FC = () => {
           selectedTime={selectedTime}
           onPreviousStep={handlePreviousStep}
           onSubmit={handleSubmit(onSubmit)}
-          selectedTable={null}
-        />
+          selectedTable={selectedTable} 
+       />
       )}
     </form>
   );
 };
 
 export default ReservationForm;
+

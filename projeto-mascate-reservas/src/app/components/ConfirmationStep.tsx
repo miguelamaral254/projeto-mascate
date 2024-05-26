@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 interface ConfirmationStepProps {
   selectedDate: Date;
   selectedTime: string;
-  selectedTable: { type: string, number: number } | null;
+  selectedTable: { type: string, number: number, numChairs: number } | null; // Adicionado numChairs
   onPreviousStep: () => void;
   onSubmit: () => void;
 }
@@ -22,19 +22,21 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({ selectedDate, selec
       <p>Data da Reserva: {selectedDate.toISOString().split('T')[0]}</p>
       <p>Horário da Reserva: {selectedTime}</p>
       {selectedTable && (
-        <p>
-          Mesa Número: {selectedTable.number} ({selectedTable.type.replace('_', ' ')})
-        </p>
-      )}
+  <p>
+    Mesa Número: {selectedTable.number} ({selectedTable.type.replace('_', ' ')})
+    <br />
+    Número de Cadeiras: {selectedTable.numChairs}
+  </p>
+)}
       <div className="mt-4">
         <label className="block text-gray-700">Número de Identificação do Funcionário:</label>
         <input {...register('employeeId')} type="text" className="input-field" />
       </div>
       <div className="mt-4 flex justify-between">
-        <button type="button" onClick={onPreviousStep} className="button-secondary">
+        <button type="button" onClick={onPreviousStep} className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300">
           Anterior
         </button>
-        <button type="submit" onClick={handleSubmit(onSubmit)} className="button-primary">
+        <button type="submit" onClick={handleSubmit(onSubmit)} className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">
           Realizar Reserva
         </button>
       </div>

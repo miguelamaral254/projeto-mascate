@@ -9,9 +9,7 @@ export default function Home() {
   return (
     <div className="flex-1 h-full w-full justify-center items-center text-center">
       <Navbar/>
-      
-         <h1>Fazer reserva</h1>
-         <ReservationForm/>
+      <ReservationForm/>
       </div>
     );
 }

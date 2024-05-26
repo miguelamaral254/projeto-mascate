@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import Swal from 'sweetalert2';
 
 interface TableModalProps {
-  table: { type: string, number: number, size: string }; // Adicionado size
+  table: { type: string; number: number; size: string };
   onClose: () => void;
-  onSelect: () => void;
+  onSelect: (numChairs: number) => void;
 }
 
 const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => {
-  const [numChairs, setNumChairs] = useState(table.size === 'G' ? 6 : table.size === 'M' ? 4 : 2); // Inicializa o número de cadeiras baseado no tamanho da mesa
+  const [numChairs, setNumChairs] = useState(table.size === 'G' ? 6 : table.size === 'M' ? 4 : 2);
 
   const increaseChairs = () => {
     if (table.size === 'G' && numChairs < 8) {
@@ -30,12 +31,18 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
     }
   };
 
+  const handleSelectTable = () => {
+    onSelect(numChairs); // Passa o número de cadeiras selecionado para a função onSelect
+    onClose();
+    Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.number} com ${numChairs} cadeiras.`, 'success');
+  };
+
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded-lg">
         <h2 className="text-xl font-bold">Detalhes da Mesa</h2>
         <p>Mesa Número: {table.number}</p>
-        <p>Tamanho: {table.size}</p> {/* Adiciona o tamanho da mesa */}
+        <p>Tamanho: {table.size}</p>
         <p>Número de Cadeiras: {numChairs}</p>
         <div className="mt-4 flex justify-end">
           <button
@@ -52,7 +59,7 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
           </button>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-            onClick={onSelect}
+            onClick={handleSelectTable}
           >
             Selecionar
           </button>

@@ -4,21 +4,22 @@ import TableModal from './TableModal';
 interface TableLayoutProps {
   date: Date;
   time: string;
-  onTableSelect: (table: { type: string, number: number, size: string }) => void; // Adicionado size
+  onTableSelect: (table: { type: string; number: number; numChairs: number }) => void; // Alterado para incluir numChairs
+  selectedTable: { type: string; number: number; } | null;
 }
 
 type TableAvailability = {
-  [key: string]: { // Date as a key, e.g., "2024-05-18"
-    [key: string]: { // Time as a key, e.g., "12:00"
-      "G": number[]; 
-      "M": number[]; 
-      "P": number[]; 
+  [key: string]: {
+    [key: string]: {
+      "G": number[];
+      "M": number[];
+      "P": number[];
     };
   };
 };
-// Escoras de dados p/ mesas /horários
+
 const availability: TableAvailability = {
-  "2024-05-25": {
+  "2024-05-26": {
     "12:00": {
       "G": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       "M": [1, 2, 3, 4, 5, 6],
@@ -33,13 +34,14 @@ const availability: TableAvailability = {
 };
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) => {
-  const [selectedTable, setSelectedTable] = useState<{ type: string, number: number, size: string } | null>(null); // Adicionado size
-  const formattedDate = date.toISOString().split('T')[0];
+  const [selectedTable, setSelectedTable] = useState<{ type: string; number: number; size: string; numChairs: number } | null>(null);
 
+  const formattedDate = date.toISOString().split('T')[0];
   const tables = availability[formattedDate]?.[time as keyof typeof availability[typeof formattedDate]];
 
   const handleTableClick = (type: string, number: number, size: string) => {
-    setSelectedTable({ type, number, size });
+    const numChairs = size === 'G' ? 8 : size === 'M' ? 6 : 4; // Definindo o número de cadeiras com base no tamanho da mesa
+    setSelectedTable({ type, number, size, numChairs }); // Incluído numChairs
   };
 
   const handleSelectTable = () => {
@@ -55,28 +57,27 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(tables).map(([size, numbers]) => // alter size
+        {Object.entries(tables).map(([size, numbers]) => (
           numbers.map((number: number) => (
             <div
-              key={`${size}-${number}`} // Alterado size
+              key={`${size}-${number}`}
               className={`p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300`}
-              onClick={() => handleTableClick(size, number, size)} // Alter size
+              onClick={() => handleTableClick(size, number, size)}
             >
               Mesa {number} (Tamanho: {size}) 
             </div>
           ))
-        )}
+        ))}
       </div>
       {selectedTable && (
         <TableModal
           table={selectedTable}
           onClose={() => setSelectedTable(null)}
           onSelect={handleSelectTable}
-          />
-        )}
-      </div>
-    );
-  };
-  
-  export default TableLayout;
-       
+        />
+      )}
+    </div>
+  );
+};
+
+export default TableLayout;
