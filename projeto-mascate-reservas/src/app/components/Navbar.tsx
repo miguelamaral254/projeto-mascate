@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
