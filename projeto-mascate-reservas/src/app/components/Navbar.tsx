@@ -49,12 +49,12 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href="/reservation">
+                <Link href="/pages/reservation">
                   <span className="hover:text-gray-200 cursor-pointer">Nova Reserva</span>
                 </Link>
               </li>
               <li>
-                <Link href="/consult-reservations">
+                <Link href="/pages/consult">
                   <span className="hover:text-gray-200 cursor-pointer">Consultar Reservas</span>
                 </Link>
               </li>

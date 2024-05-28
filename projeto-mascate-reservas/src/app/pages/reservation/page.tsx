@@ -1,7 +1,7 @@
 "use client"
 
 import ReservationForm from "@/app/components/ReservationForm";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 
 export default function Home() {
   return (
