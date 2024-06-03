@@ -1,4 +1,3 @@
-// src/components/TableLayout.tsx
 import React, { useState } from 'react';
 import TableModal from './TableModal';
 import tableAvailability from '../data/tableAvailability';
@@ -9,9 +8,10 @@ interface TableLayoutProps {
   time: string;
   onTableSelect: (table: Table) => void;
   selectedTable: Table | null;
+  tableSize: string; // Adicionando a propriedade tableSize à interface
 }
 
-const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) => {
+const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, tableSize }) => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
   const formattedDate = date.toISOString().split('T')[0];
@@ -34,8 +34,14 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(tables).map(([size, numbers]) => (
-          numbers.map((number: number) => (
+        {Object.entries(tables).map(([size, numbers]) => {
+          // Verifica se o tamanho da mesa atual é igual ao tamanho selecionado
+          if (size !== tableSize) {
+            return null; // Retorna null se o tamanho não corresponder ao tamanho selecionado
+          }
+
+          // Se o tamanho da mesa corresponder ao tamanho selecionado, renderiza as mesas desse tamanho
+          return numbers.map((number: number) => (
             <div
               key={`${size}-${number}`}
               className="p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300"
@@ -43,8 +49,8 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect }) 
             >
               Mesa {number} (Tamanho: {size}) 
             </div>
-          ))
-        ))}
+          ));
+        })}
       </div>
       {selectedTable && (
         <TableModal

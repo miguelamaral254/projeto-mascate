@@ -7,6 +7,10 @@ import { v4 as uuidv4 } from 'uuid';
 import InputMask from 'react-input-mask';
 import { Table } from '../../types/table';
 import { FormData } from '../../types/formData';
+import Image from 'next/image';
+import tables from "../../../public/images/mesap.png"
+import tablem from "../../../public/images/mesam.png"
+import tableg from "../../../public/images/mesag.png"
 
 const ReservationForm: React.FC = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
@@ -14,6 +18,7 @@ const ReservationForm: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+  const [tableSize, setTableSize] = useState<string>('');
 
   const customerName = watch('name');
   const cpf = watch('cpf');
@@ -22,6 +27,7 @@ const ReservationForm: React.FC = () => {
 
   const isStep1Complete = customerName && cpf && phoneNumber && employeeId;
   const isStep2Complete = selectedTime && selectedTable;
+  const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {
     const reservationId = uuidv4();
@@ -67,7 +73,7 @@ const ReservationForm: React.FC = () => {
         window.location.href = "/";
       });
 
-      setCurrentStep(4);
+      setCurrentStep(5);
     } catch (error: unknown) {
       if (error instanceof Error) {
         Swal.fire({
@@ -102,6 +108,10 @@ const ReservationForm: React.FC = () => {
   const handleTableSelect = (table: Table) => {
     setValue('table', table);
     setSelectedTable(table);
+  };
+
+  const handleTableSizeSelect = (size: string) => {
+    setTableSize(size);
   };
 
   return (
@@ -185,6 +195,43 @@ const ReservationForm: React.FC = () => {
         </div>
       )}
       {currentStep === 3 && (
+        <div className='flex flex-col w-full h-full p-10'>
+          <h2 className="text-xl font-semibold mb-4">Selecione o Tamanho da Mesa</h2>
+          <div className="flex justify-around">
+           <div onClick={() => handleTableSizeSelect('P')} className={`cursor-pointer ${tableSize === 'P' ? 'border-2 border-blue-500' : ''}`}>
+  <Image src={tables} alt='small table'/>
+  <p className="text-center mt-2">Pequena</p>
+</div>
+<div onClick={() => handleTableSizeSelect('M')} className={`cursor-pointer ${tableSize === 'M' ? 'border-2 border-blue-500' : ''}`}>
+  <Image src={tablem} alt='medium table'/>
+  
+  <p className="text-center mt-2">Média</p>
+</div>
+<div onClick={() => handleTableSizeSelect('G')} className={`cursor-pointer ${tableSize === 'G' ? 'border-2 border-blue-500' : ''}`}>
+  <Image src={tableg} alt='Great table'/>
+  <p className="text-center mt-2">Grande</p>
+</div>
+          </div>
+          <div className="mt-4 flex justify-between">
+            <button
+              type="button"
+              onClick={handlePreviousStep}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className={`py-2 px-4 rounded-md transition duration-300 ${isStep3Complete ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              disabled={!isStep3Complete}
+            >
+              Próximo
+            </button>
+          </div>
+        </div>
+      )}
+      {currentStep === 4 && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Selecione a Mesa</h2>
           <TableLayout
@@ -192,6 +239,7 @@ const ReservationForm: React.FC = () => {
             time={selectedTime}
             onTableSelect={handleTableSelect}
             selectedTable={selectedTable}
+            tableSize={tableSize}
           />
           <div className="mt-4 flex justify-between">
             <button
@@ -212,7 +260,7 @@ const ReservationForm: React.FC = () => {
           </div>
         </div>
       )}
-      {currentStep === 4 && (
+      {currentStep === 5 && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Confirmação da Reserva</h2>
           <p>Por favor, confirme os detalhes da reserva:</p>
