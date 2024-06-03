@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CalendarComponent from './CalendarComponent';
@@ -7,7 +6,7 @@ import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import InputMask from 'react-input-mask';
 import { Table } from '../../types/table';
-import { FormData } from '../../types/formData'; 
+import { FormData } from '../../types/formData';
 
 const ReservationForm: React.FC = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
@@ -27,23 +26,65 @@ const ReservationForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     const reservationId = uuidv4();
     data.reservationId = reservationId;
-    console.log(data);
-    const confirmationText = 
-      `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras<br/>` +
-      `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
-      `foi realizada com sucesso.<br/>` +
-      `Nome do cliente: ${customerName}<br/>` +
-      `ID do funcionário: ${employeeId}`;
-    Swal.fire({
-      title: 'Reserva Realizada',
-      html: confirmationText,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    }).then(() => {
-      window.location.href = "/";
-    });
 
-    setCurrentStep(4);
+    const reservationData = {
+      date: selectedDate?.toISOString().split('T')[0],
+      time: selectedTime,
+      tableType: selectedTable?.type,
+      customerName: data.name,
+      cpf: data.cpf,
+      phoneNumber: data.phoneNumber,
+      employeeId: data.employeeId,
+      table: selectedTable,
+    };
+
+    try {
+      const response = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reservationData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create reservation');
+      }
+
+      const confirmationText =
+        `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras<br/>` +
+        `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
+        `foi realizada com sucesso.<br/>` +
+        `Nome do cliente: ${customerName}<br/>` +
+        `ID do funcionário: ${employeeId}`;
+
+      Swal.fire({
+        title: 'Reserva Realizada',
+        html: confirmationText,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.href = "/";
+      });
+
+      setCurrentStep(4);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        Swal.fire({
+          title: 'Erro',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      } else {
+        Swal.fire({
+          title: 'Erro',
+          text: 'Ocorreu um erro desconhecido',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    }
   };
 
   const handleNextStep = () => {
@@ -62,7 +103,6 @@ const ReservationForm: React.FC = () => {
     setValue('table', table);
     setSelectedTable(table);
   };
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-white shadow-md rounded-lg">
@@ -95,7 +135,7 @@ const ReservationForm: React.FC = () => {
             <label className="block text-gray-700">ID do Funcionário:</label>
             <input {...register('employeeId', { required: true, pattern: /^[0-9]*$/ })} type="text" className="input-field" />
           </div>
-           <div className="mt-4 flex justify-between">
+          <div className="mt-4 flex justify-between">
             <button>
               Cancelar
             </button>
@@ -111,103 +151,97 @@ const ReservationForm: React.FC = () => {
         </div>
       )}
       {currentStep === 2 && (
-  <div>
-    <h2 className="text-xl font-semibold mb-4">Selecione a Data e Hora</h2>
-    <CalendarComponent
-      onDateChange={(date) => setSelectedDate(date)}
-    />
-    <div className="mb-4">
-      <label className="block text-gray-700">Horário:</label>
-      <select {...register('time', { required: true })} className="input-field" onChange={(e) => handleTimeSelect(e.target.value)}>
-        <option value="">Selecione um horário</option>
-        {['12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:00'].map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
-    </div>
-
-    {/* Input field for selecting time */}
-    <div className="mt-4 flex justify-between">
-      <button
-        type="button"
-        onClick={handlePreviousStep}
-        className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-      >
-        Anterior
-      </button>
-      <button
-        type="button"
-        onClick={handleNextStep}
-        className={`py-2 px-4 rounded-md transition duration-300 ${selectedDate && selectedTime ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-        disabled={!selectedDate || !selectedTime}
-      >
-        Próximo
-      </button>
-    </div>
-  </div>
-)}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Selecione a Data e Hora</h2>
+          <CalendarComponent onDateChange={(date) => setSelectedDate(date)} />
+          <div className="mb-4">
+            <label className="block text-gray-700">Horário:</label>
+            <select {...register('time', { required: true })} className="input-field" onChange={(e) => handleTimeSelect(e.target.value)}>
+              <option value="">Selecione um horário</option>
+              {['12:00', '13:00', '14:00', '17:00', '18:00', '19:00', '20:00'].map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mt-4 flex justify-between">
+            <button
+              type="button"
+              onClick={handlePreviousStep}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className={`py-2 px-4 rounded-md transition duration-300 ${selectedDate && selectedTime ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              disabled={!selectedDate || !selectedTime}
+            >
+              Próximo
+            </button>
+          </div>
+        </div>
+      )}
       {currentStep === 3 && (
-  <div>
-    <h2 className="text-xl font-semibold mb-4">Selecione a Mesa</h2>
-    <TableLayout
-      date={selectedDate} 
-      time={selectedTime} 
-      onTableSelect={handleTableSelect}
-      selectedTable={selectedTable}
-    />
-    <div className="mt-4 flex justify-between">
-      <button
-        type="button"
-        onClick={handlePreviousStep}
-        className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-      >
-        Anterior
-      </button>
-      <button
-        type="button"
-        onClick={handleNextStep}
-        className={`py-2 px-4 rounded-md transition duration-300 ${selectedTable ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
-        disabled={!selectedTable}
-      >
-        Próximo
-      </button>
-    </div>
-  </div>
-)}
-
-{currentStep === 4 && (
-  <div>
-    <h2 className="text-xl font-semibold mb-4">Confirmação da Reserva</h2>
-    <p>Por favor, confirme os detalhes da reserva:</p>
-    <ul className="list-none mt-4">
-      <li>Nome do Cliente: {customerName}</li>
-      <li>CPF: {cpf}</li>
-      <li>Número de Telefone: {phoneNumber}</li>
-      <li>ID do Funcionário: {employeeId}</li>
-      <li>Data da Reserva: {selectedDate?.toISOString().split('T')[0]}</li>
-      <li>Horário da Reserva: {selectedTime}</li>
-      <li>Mesa Selecionada: {selectedTable?.number} com {selectedTable?.numChairs} cadeiras</li>
-      
-    </ul>
-    <div className="mt-4 flex justify-between">
-      <button
-        type="button"
-        onClick={handlePreviousStep}
-        className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
-      >
-        Anterior
-      </button>
-      <button
-        type="submit"
-        className="py-2 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
-      >
-        Confirmar Reserva
-      </button>
-    </div>
-  </div>
-)}
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Selecione a Mesa</h2>
+          <TableLayout
+            date={selectedDate}
+            time={selectedTime}
+            onTableSelect={handleTableSelect}
+            selectedTable={selectedTable}
+          />
+          <div className="mt-4 flex justify-between">
+            <button
+              type="button"
+              onClick={handlePreviousStep}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Anterior
+            </button>
+            <button
+              type="button"
+              onClick={handleNextStep}
+              className={`py-2 px-4 rounded-md transition duration-300 ${selectedTable ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
+              disabled={!selectedTable}
+            >
+              Próximo
+            </button>
+          </div>
+        </div>
+      )}
+      {currentStep === 4 && (
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Confirmação da Reserva</h2>
+          <p>Por favor, confirme os detalhes da reserva:</p>
+          <ul className="list-none mt-4">
+            <li>Nome do Cliente: {customerName}</li>
+            <li>CPF: {cpf}</li>
+            <li>Número de Telefone: {phoneNumber}</li>
+            <li>ID do Funcionário: {employeeId}</li>
+            <li>Data da Reserva: {selectedDate?.toISOString().split('T')[0]}</li>
+            <li>Horário da Reserva: {selectedTime}</li>
+            <li>Mesa Selecionada: {selectedTable?.number} com {selectedTable?.numChairs} cadeiras</li>
+          </ul>
+          <div className="mt-4 flex justify-between">
+            <button
+              type="button"
+              onClick={handlePreviousStep}
+              className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+            >
+              Anterior
+            </button>
+            <button
+              type="submit"
+              className="py-2 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
+            >
+              Confirmar Reserva
+            </button>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

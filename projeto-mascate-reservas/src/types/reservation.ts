@@ -1,7 +1,7 @@
 export interface ReservationDetails {
   date: string;
   time: string;
-  tableNumber: number;
+  tableId: number;
 }
 
 export interface Reservation {

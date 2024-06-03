@@ -1,3 +1,4 @@
+// src/components/SearchReservationsPage.tsx
 "use client"
 import React, { useState } from 'react';
 import ReservationCard from './ReservationCard';
@@ -6,9 +7,16 @@ import { Reservation } from '../../types/reservation';
 const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ reservations }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleCheckout = (reservationId: number, checkoutTime: string) => {
+    // Logic to handle checkout (e.g., updating the backend or local state)
+    console.log(`Reservation ID: ${reservationId}, Checkout Time: ${checkoutTime}`);
+    // Optionally, remove the reservation from the state
+    // setReservations(prev => prev.filter(reservation => reservation.id !== reservationId));
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Lógica de busca aqui
+    // Search logic here
   };
 
   const searchResults = reservations.filter((reservation) =>
@@ -34,7 +42,11 @@ const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ res
       </form>
       <div className="flex flex-wrap">
         {searchResults.map((reservation) => (
-          <ReservationCard key={reservation.id} reservation={reservation} />
+          <ReservationCard
+            key={reservation.id}
+            reservation={reservation}
+            onCheckout={handleCheckout} // Passing the onCheckout function
+          />
         ))}
       </div>
     </div>
