@@ -39,12 +39,12 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
 
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded-lg">
-        <h2 className="text-xl font-bold">Detalhes da Mesa</h2>
+      <div className="bg-black p-5 rounded-lg text-yellow-300/75 ">
+        <h2 className="text-xl text-yellow-300 font-bold">Detalhes da Mesa</h2>
         <p>Mesa Número: {table.number}</p>
         <p>Tamanho: {table.size}</p>
         <p>Número de Cadeiras: {numChairs}</p>
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 gap-2 flex justify-end">
           <button
             className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mr-2 ${numChairs >= (table.size === 'G' ? 8 : table.size === 'M' ? 6 : 4) && 'opacity-50 cursor-not-allowed'}`}
             onClick={increaseChairs}

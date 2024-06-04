@@ -19,12 +19,8 @@ const ReservationForm: React.FC = () => {
   const [tableSize, setTableSize] = useState<string>('');
 
   const customerName = watch('name');
-  const cpf = watch('cpf');
-  const phoneNumber = watch('phoneNumber');
   const employeeId = watch('employeeId');
 
-  const isStep1Complete = customerName && cpf && phoneNumber && employeeId;
-  const isStep2Complete = selectedTime && selectedTable;
   const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {

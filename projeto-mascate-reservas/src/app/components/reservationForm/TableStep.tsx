@@ -24,7 +24,7 @@ const TableStep: React.FC<TableSizeProps> = ({
 }) => {
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Selecione a Mesa</h2>
+      <h2 className="text-xl font-semibold mb-4 text-yellow-300/75 ">Selecione a Mesa</h2>
       <TableLayout
         date={selectedDate}
         time={selectedTime}

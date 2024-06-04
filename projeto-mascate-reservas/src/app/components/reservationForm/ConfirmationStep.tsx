@@ -13,7 +13,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
   employeeId
 }) => {
   return (
-    <div>
+    <div className='text-yellow-300/80 '>
       <h2 className="text-xl font-semibold mb-4">Confirmação</h2>
       <p>Data: {selectedDate.toISOString().split('T')[0]}</p>
       <p>Hora: {selectedTime}</p>

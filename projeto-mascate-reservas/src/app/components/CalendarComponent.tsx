@@ -40,7 +40,7 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
         value={date}
         locale="pt-BR"
         formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
-        className="w-full"
+        className="w-full text-yellow-500"
         tileDisabled={({ date }) => {
           const formattedDate = format(date, 'yyyy-MM-dd');
           return !tableAvailability[formattedDate];
@@ -57,7 +57,7 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
             const formattedDate = format(date, 'yyyy-MM-dd');
             const availableTimes = tableAvailability[formattedDate];
             if (availableTimes) {
-              return <div>{Object.keys(availableTimes).length} horários disponíveis</div>;
+              return <div className='text-blue-300'>{Object.keys(availableTimes).length} horários disponíveis</div>;
             }
           }
           return null;
