@@ -1,5 +1,6 @@
 import React from 'react';
 import { ConfirmationStepProps } from '@/types/ConfirmationStepProps';
+import NavBtn from '../NavBtn';
 
 
 const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
@@ -20,13 +21,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
       <p>Nome do Cliente: {customerName}</p>
       <p>ID do Funcionário: {employeeId}</p>
       <div className="flex justify-between mt-4">
-        <button 
-          type="button" 
-          onClick={onPreviousStep} 
-          className="px-4 py-2 bg-gray-500 text-white rounded"
-        >
-          Anterior
-        </button>
+        <NavBtn text='back' onClick={onPreviousStep}/>
         <button 
           type="button" 
           onClick={onSubmit} 
