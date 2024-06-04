@@ -12,7 +12,7 @@ const reservationsData: Reservation[] = [
   reservation: {
     date: "2024-06-03",
     time: "18:00",
-    tableNumber: 3
+    tableId: 3
   }
 },
   {
@@ -25,7 +25,7 @@ const reservationsData: Reservation[] = [
   reservation: {
     date: "2024-06-05",
     time: "19:00",
-    tableNumber: 5
+    tableId: 5
   }
 },
   {
@@ -38,7 +38,7 @@ const reservationsData: Reservation[] = [
     reservation: {
       date: "2024-06-10",
       time: "20:00",
-      tableNumber: 1
+      tableId: 1
     }
   },
     {
@@ -51,7 +51,7 @@ const reservationsData: Reservation[] = [
     reservation: {
       date: "2024-06-15",
       time: "12:00",
-      tableNumber: 2
+      tableId: 2
     }
   },
   {
@@ -64,7 +64,7 @@ const reservationsData: Reservation[] = [
     reservation: {
       date: "2024-06-20",
       time: "14:00",
-      tableNumber: 4
+      tableId: 4
     }
   },{
     id: 7,
@@ -76,7 +76,7 @@ const reservationsData: Reservation[] = [
     reservation: {
       date: "2024-06-25",
       time: "18:00",
-      tableNumber: 6
+      tableId: 6
     }
   },{
     id: 8,
@@ -88,7 +88,7 @@ const reservationsData: Reservation[] = [
     reservation: {
       date: "2024-06-30",
       time: "19:00",
-      tableNumber: 7
+      tableId: 7
     }
   }
   
