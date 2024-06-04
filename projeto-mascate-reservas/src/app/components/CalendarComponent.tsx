@@ -3,13 +3,12 @@ import Calendar, { CalendarProps } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { TableAvailability } from '../../types/table';
 
 interface Props {
   onDateChange: (date: Date) => void;
 }
 
-// Importe a disponibilidade da tabela
+// Substituir por endpoint de mesas disponíveis!
 import tableAvailability from '../data/tableAvailability';
 
 const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
@@ -19,7 +18,7 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
     const formattedDate = format(date, 'yyyy-MM-dd');
     const availableTimes = tableAvailability[formattedDate];
 
-    // Verifica se a data está disponível no objeto tableAvailability
+
     if (!availableTimes) {
       return false;
     }
@@ -42,7 +41,6 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
         locale="pt-BR"
         formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
         className="w-full"
-        // Forneça a disponibilidade da tabela para o componente Calendar
         tileDisabled={({ date }) => {
           const formattedDate = format(date, 'yyyy-MM-dd');
           return !tableAvailability[formattedDate];

@@ -10,7 +10,7 @@ const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ res
   const handleCheckout = (reservationId: number, checkoutTime: string) => {
     // Logic to handle checkout (e.g., updating the backend or local state)
     console.log(`Reservation ID: ${reservationId}, Checkout Time: ${checkoutTime}`);
-    // Optionally, remove the reservation from the state
+   
     // setReservations(prev => prev.filter(reservation => reservation.id !== reservationId));
   };
 

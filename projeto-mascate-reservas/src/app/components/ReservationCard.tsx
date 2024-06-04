@@ -1,4 +1,3 @@
-// src/components/ReservationCard.tsx
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { Reservation } from '../../types/reservation';

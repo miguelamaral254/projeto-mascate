@@ -2,14 +2,9 @@ import React, { useState } from 'react';
 import TableModal from './TableModal';
 import tableAvailability from '../data/tableAvailability';
 import { Table } from '../../types/table';
+import { TableLayoutProps } from '@/types/TableLayoutProps';
 
-interface TableLayoutProps {
-  date: Date;
-  time: string;
-  onTableSelect: (table: Table) => void;
-  selectedTable: Table | null;
-  tableSize: string; // Adicionando a propriedade tableSize à interface
-}
+
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, tableSize }) => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
