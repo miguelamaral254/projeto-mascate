@@ -33,7 +33,7 @@ export default function Navbar() {
             <button className="absolute top-0 right-0 p-2" onClick={closeMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white"
+                className="h-6 w-6 text-yellow-200"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -76,10 +76,12 @@ export default function Navbar() {
           </nav>
         </div>
       </div>
-      <div className="flex  bg-red-600 w-full">
+      <div className="flex justify-between p-5 bg-black w-full">
+        
         <button onClick={toggleMenu}>
-          <IoMdMenu className="text-3xl text-white" />
+          <IoMdMenu className="text-3xl text-yellow-300" />
         </button>
+          <Image src={logo} alt="logo" className="w-30 h-30 p-5"/>
       </div>
     </div>
   );

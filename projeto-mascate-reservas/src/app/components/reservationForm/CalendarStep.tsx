@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { UseFormRegister } from 'react-hook-form';
 import { FormData } from '../../../types/formData';

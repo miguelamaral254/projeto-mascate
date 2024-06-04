@@ -114,7 +114,7 @@ const ReservationForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-white shadow-md rounded-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-black shadow-md rounded-lg">
       {currentStep === 1 && (
         <ClientInfoStep
           register={register}
