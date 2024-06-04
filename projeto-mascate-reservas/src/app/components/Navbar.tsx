@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
+import logo from "@/../../public/images/Logo.png"
+import Image from "next/image";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,10 +25,11 @@ export default function Navbar() {
         />
       )}
       <div
-        className={`fixed top-0 left-0 h-full bg-red-900 text-white font-bold py-3 transform transition-all duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"} w-64 z-10`}
+        className={`fixed top-0 left-0 h-full bg-black text-white font-bold py-3 transform transition-all duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"} w-64 z-10`}
       >
         <div className="container mx-auto flex flex-col items-center h-full">
           <nav className="flex flex-col items-center">
+            <Image src={logo} alt="logo" className="w-full h-full p-5"/>
             <button className="absolute top-0 right-0 p-2" onClick={closeMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
