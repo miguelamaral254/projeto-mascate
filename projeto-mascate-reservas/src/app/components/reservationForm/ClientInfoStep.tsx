@@ -8,6 +8,8 @@ interface ClientInfoStepProps {
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
   handleNextStep: () => void;
+  isStep1Complete: boolean;
+  
 }
 
 const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handleNextStep }) => {
