@@ -3,7 +3,7 @@ import Image from 'next/image';
 import tables from "@/../../public/images/mesap.png"
 import tablem from "@/../../public/images/mesam.png"
 import tableg from "@/../../public/images/mesag.png"
-import NavBtn from '../NavBTn';
+import NavBtn from '../NavBtn';
 
 interface TableSizeStepProps {
   handleNextStep: () => void;

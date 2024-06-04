@@ -1,7 +1,7 @@
 import React from 'react';
 import TableLayout from '../TableLayout';
 import { Table } from '../../../types/table';
-import NavBtn from '../NavBTn';
+import NavBtn from '../NavBtn';
 
 interface TableSizeProps {
   handleNextStep: () => void;

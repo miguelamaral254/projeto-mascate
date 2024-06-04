@@ -2,7 +2,7 @@ import React from 'react';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
 import { FormData } from '../../../types/formData';
 import ReactInputMask from 'react-input-mask';
-import NavBtn from '../NavBTn';
+import NavBtn from '../NavBtn';
 
 interface ClientInfoStepProps {
   register: UseFormRegister<FormData>;
