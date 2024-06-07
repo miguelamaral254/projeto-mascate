@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { Reservation } from '../../types/reservation';
+import { Reservation } from '../types/reservation';
 
 interface ReservationCardProps {
   reservation: Reservation;

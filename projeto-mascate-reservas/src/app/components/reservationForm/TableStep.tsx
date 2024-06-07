@@ -1,7 +1,7 @@
 import React from 'react';
 import TableLayout from '../TableLayout';
-import { Table } from '../../../types/table';
-import NavBtn from '../NavBtn';
+import { Table } from '../../types/table';
+import Btn from '../Btn';
 
 interface TableSizeProps {
   handleNextStep: () => void;
@@ -24,7 +24,7 @@ const TableStep: React.FC<TableSizeProps> = ({
 }) => {
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4 text-yellow-300/75 ">Selecione a Mesa</h2>
+      <h2 className="text-xl font-semibold mb-4 text-primary ">Selecione a Mesa</h2>
       <TableLayout
         date={selectedDate}
         time={selectedTime}
@@ -33,8 +33,8 @@ const TableStep: React.FC<TableSizeProps> = ({
         tableSize={tableSize}
       />
       <div className="mt-4 flex justify-between">
-        <NavBtn onClick={handlePreviousStep} text='back'/>
-        <NavBtn onClick={handleNextStep} text='next' disabled={!selectedTable}/>
+        <Btn onClick={handlePreviousStep} text='back'/>
+        <Btn onClick={handleNextStep} text='next' disabled={!selectedTable}/>
        
       </div>
     </div>

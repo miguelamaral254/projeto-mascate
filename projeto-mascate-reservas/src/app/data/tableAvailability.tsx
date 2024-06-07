@@ -1,5 +1,5 @@
 
-import { TableAvailability } from '../../types/table';
+import { TableAvailability } from '../types/table';
 
 const tableAvailability: TableAvailability = {
   "2024-05-26": {

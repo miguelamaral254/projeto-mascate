@@ -2,7 +2,7 @@
 "use client"
 import React, { useState } from 'react';
 import ReservationCard from './ReservationCard';
-import { Reservation } from '../../types/reservation';
+import { Reservation } from '../types/reservation';
 
 const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ reservations }) => {
   const [searchTerm, setSearchTerm] = useState('');

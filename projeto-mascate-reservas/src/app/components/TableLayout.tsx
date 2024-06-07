@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import TableModal from './TableModal';
 import tableAvailability from '../data/tableAvailability';
-import { Table } from '../../types/table';
-import { TableLayoutProps } from '@/types/TableLayoutProps';
+import { Table } from '../types/table';
+import { TableLayoutProps } from '@/app/types/TableLayoutProps';
 
 
 

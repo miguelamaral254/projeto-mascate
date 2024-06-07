@@ -1,5 +1,5 @@
 // src/data/reservas.ts
-import { Reservation } from '../../types/reservation';
+import { Reservation } from '../types/reservation';
 
 const reservationsData: Reservation[] = [
   {

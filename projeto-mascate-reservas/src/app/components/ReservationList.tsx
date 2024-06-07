@@ -1,7 +1,7 @@
 // src/components/ReservationList.tsx
 import React, { useState } from 'react';
 import ReservationCard from './ReservationCard';
-import { Reservation } from '../../types/reservation';
+import { Reservation } from '../types/reservation';
 
 const ReservationList: React.FC<{ reservations: Reservation[] }> = ({ reservations }) => {
   const [reservationList, setReservationList] = useState<Reservation[]>(reservations);

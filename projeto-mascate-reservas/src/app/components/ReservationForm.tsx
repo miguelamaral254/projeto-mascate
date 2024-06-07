@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
-import { Table } from '../../types/table';
-import { FormData } from '../../types/formData';
+import { Table } from '../types/table';
+import { FormData } from '../types/formData';
 import ConfirmationStep from './reservationForm/ConfirmationStep';
 import ClientInfoStep from './reservationForm/ClientInfoStep';
 import CalendarStep from './reservationForm/CalendarStep';
@@ -110,7 +110,7 @@ const ReservationForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-black shadow-md rounded-lg">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto p-8 bg-secondary shadow-md rounded-lg">
       {currentStep === 1 && (
         <ClientInfoStep
           register={register}

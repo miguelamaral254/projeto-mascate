@@ -1,9 +1,9 @@
 "use client"
 import React, { useState } from 'react';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
-import { FormData } from '../../../types/formData';
+import { FormData } from '../../types/formData';
 import ReactInputMask from 'react-input-mask';
-import NavBtn from '../NavBtn';
+import Btn from '../Btn';
 import Image from 'next/image';
 
 import logo from "@/../../public/images/Logo.png"
@@ -35,14 +35,14 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
           {...register('name', { required: true, pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/ })}
           type="text"
           id="name"
-          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-yellow-200 appearance-none focus:outline-none focus:ring-0 focus:border-white"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-white"
           required
           onClick={() => setNameFocused(true)}
           onBlur={() => setNameFocused(false)}
         />
         <label
           htmlFor="name"
-          className={`absolute text-sm ${nameFocused ? 'text-white' :'text-yellow-200'} duration-300 scale-75 top-4 left-0 origin-[0] ${
+          className={`absolute text-sm ${nameFocused ? 'text-white' :'text-primary'} duration-300 scale-75 top-4 left-0 origin-[0] ${
             (name || nameFocused) ? '-translate-y-5' : ''
           }`}
         >
@@ -55,12 +55,12 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
           mask="999.999.999-99"
           inputMode="numeric"
           id="cpf"
-          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-yellow-200 appearance-none focus:outline-none focus:ring-0 focus:border-white"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-white"
           required
           onFocus={() => setCpfFocused(true)} 
           onBlur={() => setCpfFocused(false)} 
         />
-        <label htmlFor="cpf" className={`absolute text-sm ${cpfFocused ? 'text-white' :  'text-yellow-200'} duration-300 scale-75 top-4 left-0 origin-[0] ${cpf ? '-translate-y-6' : ''}`}>CPF:</label>
+        <label htmlFor="cpf" className={`absolute text-sm ${cpfFocused ? 'text-white' :  'text-primary'} duration-300 scale-75 top-4 left-0 origin-[0] ${cpf ? '-translate-y-6' : ''}`}>CPF:</label>
       </div>
       
       <div className="mb-4 relative z-0">
@@ -69,12 +69,12 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
           mask="(99) 9 9999-9999"
           inputMode="numeric"
           id="phoneNumber"
-          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-yellow-200 appearance-none focus:outline-none focus:ring-0 focus:border-white"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-white"
           required
           onFocus={() => setPhoneNumberFocused(true)}
           onBlur={() => setPhoneNumberFocused(false)}
         />
-        <label htmlFor="phoneNumber" className={`absolute text-sm ${phoneNumberFocused ? 'text-white' : 'text-yellow-200'} duration-300 scale-75 top-4 left-0 origin-[0] ${phoneNumber ? '-translate-y-6' : ''}`}>Número de Telefone:</label>
+        <label htmlFor="phoneNumber" className={`absolute text-sm ${phoneNumberFocused ? 'text-white' : 'text-primary'} duration-300 scale-75 top-4 left-0 origin-[0] ${phoneNumber ? '-translate-y-6' : ''}`}>Número de Telefone:</label>
       </div>
       
       <div className="mb-4 relative z-0">
@@ -82,14 +82,14 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
           {...register('employeeId', { required: true, pattern: /^[0-9]*$/ })}
           type="text"
           id="employeeId"
-          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-yellow-200 appearance-none focus:outline-none focus:ring-0 focus:border-white"
+          className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-white"
           required
           onClick={() => setEmployeeIdFocused(true)}
           onBlur={() => setEmployeeIdFocused(false)}
         />
         <label
           htmlFor="employeeId"
-          className={`absolute text-sm ${employeeIdFocused ? 'text-white' : 'text-yellow-200'} duration-300 scale-75 top-4 left-0 origin-[0] ${
+          className={`absolute text-sm ${employeeIdFocused ? 'text-white' : 'text-primary'} duration-300 scale-75 top-4 left-0 origin-[0] ${
             (employeeId || employeeIdFocused) ? '-translate-y-5' : ''
           }`}
         >
@@ -99,7 +99,7 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
       
       <div className="mt-4 flex justify-between">
         <button className='text-white bg-red-600 hover:bg-red-500 p-3 rounded-md'>Cancelar</button>
-        <NavBtn onClick={handleNextStep} text='next' disabled={!isStep1Complete} />
+        <Btn onClick={handleNextStep} text='next' disabled={!isStep1Complete} />
       </div>
     </div>
   );

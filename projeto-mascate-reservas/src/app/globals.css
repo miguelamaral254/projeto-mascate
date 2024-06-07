@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+select option {
+  background-color: #D9B966; /* primary */
+  color: #101217; /* secondary */
+}
+
+select option:hover {
+  background-color: #897542; /* primary_hover */
+  color: #101217; /* secondary */
+}
+
+select:focus {
+  outline: none; /* Remove focus outline */
+}

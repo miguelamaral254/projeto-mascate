@@ -40,7 +40,7 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
         value={date}
         locale="pt-BR"
         formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
-        className="w-full text-yellow-500"
+        className="w-full text-primary"
         tileDisabled={({ date }) => {
           const formattedDate = format(date, 'yyyy-MM-dd');
           return !tableAvailability[formattedDate];

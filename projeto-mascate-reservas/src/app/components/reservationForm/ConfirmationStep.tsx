@@ -1,6 +1,6 @@
 import React from 'react';
-import { ConfirmationStepProps } from '@/types/ConfirmationStepProps';
-import NavBtn from '../NavBtn';
+import { ConfirmationStepProps } from '@/app/types/ConfirmationStepProps';
+import Btn from '../Btn';
 
 
 const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
@@ -13,7 +13,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
   employeeId
 }) => {
   return (
-    <div className='text-yellow-300/80 '>
+    <div className='text-primary '>
       <h2 className="text-xl font-semibold mb-4">Confirmação</h2>
       <p>Data: {selectedDate.toISOString().split('T')[0]}</p>
       <p>Hora: {selectedTime}</p>
@@ -21,7 +21,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
       <p>Nome do Cliente: {customerName}</p>
       <p>ID do Funcionário: {employeeId}</p>
       <div className="flex justify-between mt-4">
-        <NavBtn text='back' onClick={onPreviousStep}/>
+        <Btn text='back' onClick={onPreviousStep}/>
         <button 
           type="button" 
           onClick={onSubmit} 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
+import Btn from './Btn';
 
 interface TableModalProps {
   table: { type: string; number: number; size: string; numChairs: number }; 
@@ -32,8 +33,8 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
   };
 
   const handleSelectTable = () => {
-    onSelect(numChairs); // Passa o número de cadeiras selecionado para a função onSelect
-    onClose(); // Fecha o modal após a seleção
+    onSelect(numChairs); 
+    onClose(); 
     Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.number} com ${numChairs} cadeiras.`, 'success'); // Exibe um alerta informando a seleção
   };
 
@@ -45,18 +46,15 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
         <p>Tamanho: {table.size}</p>
         <p>Número de Cadeiras: {numChairs}</p>
         <div className="mt-4 gap-2 flex justify-end">
-          <button
-            className={`bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 mr-2 ${numChairs >= (table.size === 'G' ? 8 : table.size === 'M' ? 6 : 4) && 'opacity-50 cursor-not-allowed'}`}
-            onClick={increaseChairs}
-          >
-            +
-          </button>
-          <button
-            className={`bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-300 ${numChairs <= (table.size === 'G' ? 6 : table.size === 'M' ? 4 : 2) && 'opacity-50 cursor-not-allowed'}`}
-            onClick={decreaseChairs}
-          >
-            -
-          </button>
+       
+          <Btn
+           onClick={increaseChairs}
+           text='+'
+          />
+       
+          <Btn
+          onClick={decreaseChairs}
+          text='-'/>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
             onClick={handleSelectTable}
