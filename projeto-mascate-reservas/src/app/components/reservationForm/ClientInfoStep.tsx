@@ -7,6 +7,7 @@ import NavBtn from '../NavBtn';
 interface ClientInfoStepProps {
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
+  isStep1Complete :boolean;
   handleNextStep: () => void;
 }
 
