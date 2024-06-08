@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const reservation: Reservation = req.body;
 
     try {
-      const response = await fetch('http://localhost:8080/api/reservation', {
+      const response = await fetch('http://localhost:8080/reservation/reservar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

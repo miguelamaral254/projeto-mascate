@@ -9,7 +9,7 @@ export interface Reservation {
   customerName: string;
   cpf: string;
   phoneNumber: string;
-  employeeId: string;
+  employeeId: number;
   reservationId: string;
   reservation: ReservationDetails;
 }

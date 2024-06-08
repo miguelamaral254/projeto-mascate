@@ -4,8 +4,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     const { date, time, tableType, customerName, cpf, phoneNumber, employeeId, table } = req.body;
 
-    try {
-      const response = await fetch('http://localhost:8080/api/reservation', {
+    try {``
+      const response = await fetch('http://localhost:8080/reservation/reservar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
