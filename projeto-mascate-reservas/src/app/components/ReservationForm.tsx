@@ -3,12 +3,14 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { v4 as uuidv4 } from 'uuid';
 import { Table } from '../types/table';
+import { Reservation } from '../types/reservation'
 import { FormData } from '../types/formData';
 import ConfirmationStep from './reservationForm/ConfirmationStep';
 import ClientInfoStep from './reservationForm/ClientInfoStep';
 import CalendarStep from './reservationForm/CalendarStep';
 import TableSizeStep from './reservationForm/TableSizeStep';
 import TableStep from './reservationForm/TableStep';
+import { createReservation } from '../services/reservationService';
 
 const ReservationForm: React.FC = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
@@ -26,31 +28,24 @@ const ReservationForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     const reservationId = uuidv4();
     data.reservationId = reservationId;
-    console.log(data);
 
-    const reservationData = {
-      date: selectedDate?.toISOString().split('T')[0],
-      time: selectedTime,
-      tableType: selectedTable?.type,
+    const reservationData: Reservation = {
       customerName: data.name,
       cpf: data.cpf,
       phoneNumber: data.phoneNumber,
       employeeId: data.employeeId,
-      table: selectedTable,
+      reservationId: reservationId,
+      reservation: {
+        date: selectedDate?.toISOString().split('T')[0] || '',
+        time: selectedTime,
+        tableId: selectedTable ? selectedTable.number : 0, // Use selectedTable.number como ID da mesa
+      },
+      id: 0, // Pode ser um valor padrão, pois será atribuído pelo servidor
     };
+  
 
     try {
-      const response = await fetch('/api/reservation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reservationData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create reservation');
-      }
+      await createReservation(reservationData);
 
       const confirmationText =
         `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras<br/>` +
@@ -69,7 +64,7 @@ const ReservationForm: React.FC = () => {
       });
 
       setCurrentStep(5);
-    } catch (error: unknown) {
+    } catch (error) {
       if (error instanceof Error) {
         Swal.fire({
           title: 'Erro',

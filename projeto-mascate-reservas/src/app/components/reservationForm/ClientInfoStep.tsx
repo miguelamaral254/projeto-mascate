@@ -11,8 +11,9 @@ import logo from "@/../../public/images/Logo.png"
 interface ClientInfoStepProps {
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
+  isStep1Complete :boolean;
   handleNextStep: () => void;
-  isStep1Complete: boolean;
+
 }
 
 const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handleNextStep }) => {
