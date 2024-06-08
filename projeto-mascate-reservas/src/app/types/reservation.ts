@@ -1,11 +1,24 @@
 export interface Reservation {
-  id: number;
-  customerName: string;
-  cpf: string;
+  idReservation: number;
+  tableId: {
+    tableID: number;
+    availability: boolean;
+    chairs: number;
+    type: string;
+    size: string;
+  };
+  employeeId: {
+    name: string;
+    reservationsMade: number;
+  };
+  cpf: {
+    name: string;
+    cpf: string;
+    phoneNumber: string;
+  };
+  name: string;
   phoneNumber: string;
-  employeeId: number;
-  reservationId: string;
-  date: string;
+  reservationDate: string;
   time: string;
-  tableId: number;
+  checkin: boolean;
 }

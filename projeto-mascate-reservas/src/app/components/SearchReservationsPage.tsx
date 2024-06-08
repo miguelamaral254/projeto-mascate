@@ -1,27 +1,36 @@
-// src/components/SearchReservationsPage.tsx
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReservationCard from './ReservationCard';
 import { Reservation } from '../types/reservation';
+import { fetchReservations } from '../services/fetchReservationService';
 
-const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ reservations }) => {
+const SearchReservationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [fetchedReservations, setFetchedReservations] = useState<Reservation[]>([]);
+
+  useEffect(() => {
+    const getReservations = async () => {
+      const reservations = await fetchReservations();
+      console.log('Fetched Reservations:', reservations);
+      setFetchedReservations(reservations);
+    };
+
+    getReservations();
+  }, []);
 
   const handleCheckout = (reservationId: number, checkoutTime: string) => {
-    // Logic to handle checkout (e.g., updating the backend or local state)
     console.log(`Reservation ID: ${reservationId}, Checkout Time: ${checkoutTime}`);
-   
-    // setReservations(prev => prev.filter(reservation => reservation.id !== reservationId));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Search logic here
   };
 
-  const searchResults = reservations.filter((reservation) =>
-    reservation.customerName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const searchResults = fetchedReservations.filter((reservation) => {
+    const customerName = reservation.name.toLowerCase();
+    const term = searchTerm.toLowerCase();
+    return customerName.includes(term);
+  });
 
   return (
     <div className="container justify-center items-center mx-auto p-4">
@@ -43,9 +52,9 @@ const SearchReservationsPage: React.FC<{ reservations: Reservation[] }> = ({ res
       <div className="flex flex-wrap">
         {searchResults.map((reservation) => (
           <ReservationCard
-            key={reservation.id}
+            key={reservation.idReservation}
             reservation={reservation}
-            onCheckout={handleCheckout} // Passing the onCheckout function
+            onCheckout={handleCheckout}
           />
         ))}
       </div>

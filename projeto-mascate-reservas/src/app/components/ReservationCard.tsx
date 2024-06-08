@@ -8,22 +8,22 @@ interface ReservationCardProps {
 }
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onCheckout }) => {
-  const { id, customerName, cpf, phoneNumber, employeeId, reservationId, reservation: { date, time, tableId } } = reservation;
-  const [isCheckedIn, setIsCheckedIn] = useState(false);
+  const { idReservation, name, cpf, phoneNumber, employeeId, reservationDate, time, tableId, checkin } = reservation;
+  const [isCheckedIn, setIsCheckedIn] = useState(checkin);
   const [checkInTime, setCheckInTime] = useState<string | null>(null);
 
   const handleCheckIn = async () => {
     const currentTime = new Date().toLocaleTimeString();
     setCheckInTime(currentTime);
     setIsCheckedIn(true);
-    
+
     // Envia os dados de check-in para o backend
     await fetch('/api/checkin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ reservationId, checkInTime: currentTime }),
+      body: JSON.stringify({ reservationId: idReservation, checkInTime: currentTime }),
     });
 
     Swal.fire({
@@ -36,7 +36,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
 
   const handleCheckOut = async () => {
     const currentTime = new Date().toLocaleTimeString();
-    onCheckout(id, currentTime);
+    onCheckout(idReservation, currentTime);
 
     // Envia os dados de check-out para o backend
     await fetch('/api/checkout', {
@@ -44,7 +44,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ reservationId, checkOutTime: currentTime }),
+      body: JSON.stringify({ reservationId: idReservation, checkOutTime: currentTime }),
     });
 
     Swal.fire({
@@ -109,10 +109,10 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ reservationId, motivo: especificarMotivo }),
+            body: JSON.stringify({ reservationId: idReservation, motivo: especificarMotivo }),
           });
 
-          console.log(`Reserva ${reservationId} cancelada. Motivo: ${especificarMotivo}`);
+          console.log(`Reserva ${idReservation} cancelada. Motivo: ${especificarMotivo}`);
         }
       }
     });
@@ -120,14 +120,14 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 m-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
-      <h2 className="text-xl font-semibold mb-2">Reserva ID: {id}</h2>
-      <p>Cliente: {customerName}</p>
-      <p>CPF: {cpf}</p>
+      <h2 className="text-xl font-semibold mb-2">Reserva ID: {idReservation}</h2>
+      <p>Cliente: {name}</p>
+      <p>CPF: {cpf.cpf}</p>
       <p>Número de Telefone: {phoneNumber}</p>
-      <p>ID do Funcionário: {employeeId}</p>
-      <p>ID da Reserva: {reservationId}</p>
-      <p>Mesa Número: {tableId}</p>
-      <p>Data: {date}</p>
+      <p>Funcionário: {employeeId.name}</p>
+      <p>ID da Reserva: {idReservation}</p>
+      <p>Mesa Número: {tableId.tableID}</p>
+      <p>Data: {reservationDate}</p>
       <p>Hora: {time}</p>
       {checkInTime && <p>Check-in Time: {checkInTime}</p>}
       <div className='w-full flex gap-5 justify-between p-4'>
