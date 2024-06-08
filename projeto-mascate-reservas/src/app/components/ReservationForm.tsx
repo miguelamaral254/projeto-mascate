@@ -33,14 +33,12 @@ const ReservationForm: React.FC = () => {
       customerName: data.name,
       cpf: data.cpf,
       phoneNumber: data.phoneNumber,
-      employeeId: data.employeeId,
+      employeeId: Number(data.employeeId),
       reservationId: reservationId,
-      reservation: {
-        date: selectedDate?.toISOString().split('T')[0] || '',
-        time: selectedTime,
-        tableId: selectedTable ? selectedTable.number : 0, // Use selectedTable.number como ID da mesa
-      },
-      id: 0, // Pode ser um valor padrão, pois será atribuído pelo servidor
+      date: selectedDate?.toISOString().split('T')[0] || '',
+      time: selectedTime,
+      tableId: selectedTable ? selectedTable.number : 0, 
+      id: 0,
     };
   
 

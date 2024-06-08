@@ -107,4 +107,3 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
 };
 
 export default ClientInfoStep;
-

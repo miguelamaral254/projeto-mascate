@@ -1,9 +1,3 @@
-export interface ReservationDetails {
-  date: string;
-  time: string;
-  tableId: number;
-}
-
 export interface Reservation {
   id: number;
   customerName: string;
@@ -11,5 +5,7 @@ export interface Reservation {
   phoneNumber: string;
   employeeId: number;
   reservationId: string;
-  reservation: ReservationDetails;
+  date: string;
+  time: string;
+  tableId: number;
 }
