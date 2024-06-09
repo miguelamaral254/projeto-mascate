@@ -19,22 +19,20 @@ const ReservationForm: React.FC = () => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
   const [tableSize, setTableSize] = useState<string>('');
 
-  const customerName = watch('name');
+  const customerName = watch('customerName');
   const employeeId = watch('employeeId');
 
   const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {
-  //  const reservationId = uuidv4();
-  //data.idReservation = reservationId;
     data.table = selectedTable?.tableId || 0; // Atribua apenas o número da mesa
     data.date = selectedDate.toISOString().split('T')[0]; // Formatar a data
     data.time = selectedTime;
     let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
     data.cpf = cpfFormatado;
-    let phoneNumber = data.phoneNumber.replace(/[()\s-]/g, '');
+    //let phoneNumber = data.phoneNumber.replace(/[()\s-]/g, '');
     data.cpf = cpfFormatado;
-    data.phoneNumber = phoneNumber;
+    //data.phoneNumber = phoneNumber;
     data.employeeId = Number(employeeId)
     console.log(data); 
 
@@ -45,7 +43,7 @@ const ReservationForm: React.FC = () => {
         `Reserva para a mesa ${selectedTable?.tableId} com ${selectedTable?.chairs} cadeiras<br/>` +
         `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
         `foi realizada com sucesso.<br/>` +
-        `Nome do cliente: ${name}<br/>` +
+        `Nome do cliente: ${customerName}<br/>` +
         `ID do funcionário: ${employeeId}`;
 
       Swal.fire({
@@ -146,7 +144,7 @@ const ReservationForm: React.FC = () => {
           selectedTable={selectedTable}
           onPreviousStep={handlePreviousStep}
           onSubmit={handleSubmit(onSubmit)}
-          name={customerName}
+          customerName={customerName}
           employeeId={employeeId}
         />
       )}

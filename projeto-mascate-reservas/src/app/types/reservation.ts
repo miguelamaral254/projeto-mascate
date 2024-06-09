@@ -5,10 +5,10 @@ interface Reservation {
   idReservation: number;
   tableId: number; // Adjusted to match the type in FormData
   employeeId: number;
-  name: string;
+  customerName: string;
   cpf: string;
   phoneNumber: string;
-  datreservationDate: string;
+  reservationDate: string;
   time: string;
   checkin: boolean;
 }

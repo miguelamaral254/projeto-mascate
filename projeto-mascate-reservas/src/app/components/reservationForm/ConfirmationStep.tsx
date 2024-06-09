@@ -10,7 +10,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
   selectedTable,
   onPreviousStep,
   onSubmit,
-  name,
+  customerName,
   employeeId
 }) => {
   return (
@@ -19,7 +19,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
       <p>Data: {selectedDate.toISOString().split('T')[0]}</p>
       <p>Hora: {selectedTime}</p>
       <p>Mesa: {selectedTable?.tableId} ({selectedTable?.chairs} cadeiras)</p>
-      <p>Nome do Cliente: {name}</p>
+      <p>Nome do Cliente: {customerName}</p>
       <p>ID do Funcionário: {employeeId}</p>
       <div className="flex justify-between mt-4">
         <Btn text='back' onClick={onPreviousStep}/>

@@ -4,6 +4,6 @@ export interface ConfirmationStepProps {
   selectedTable: { type: string; tableId: number; chairs: number } | null;
   onPreviousStep: () => void;
   onSubmit: () => void;
-  name: string;
+  customerName: string;
   employeeId: number;
 }

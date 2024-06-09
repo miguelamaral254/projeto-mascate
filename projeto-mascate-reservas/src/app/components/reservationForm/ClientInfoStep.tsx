@@ -15,13 +15,13 @@ interface ClientInfoStepProps {
 }
 
 const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handleNextStep }) => {
-  const { name, cpf, phoneNumber, employeeId } = watch();
+  const { customerName, cpf, phoneNumber, employeeId } = watch();
   const [nameFocused, setNameFocused] = useState(false);
   const [cpfFocused, setCpfFocused] = useState(false);
   const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
   const [employeeIdFocused, setEmployeeIdFocused] = useState(false);
 
-  const isStep1Complete = !!name && !!cpf && !!phoneNumber && !!employeeId;
+  const isStep1Complete = !!customerName && !!cpf && !!phoneNumber && !!employeeId;
 
   return (
     <div>
@@ -31,7 +31,7 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
       </div>
       <div className="mb-4 relative z-0">
         <input
-          {...register('name', { required: true, pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/ })}
+          {...register('customerName', { required: true, pattern: /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/ })}
           type="text"
           id="name"
           className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-white"
@@ -42,7 +42,7 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
         <label
           htmlFor="name"
           className={`absolute text-sm ${nameFocused ? 'text-white' :'text-primary'} duration-300 scale-75 top-4 left-0 origin-[0] ${
-            (name || nameFocused) ? '-translate-y-5' : ''
+            (customerName || nameFocused) ? '-translate-y-5' : ''
           }`}
         >
           Nome:
