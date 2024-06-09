@@ -1,7 +1,8 @@
+// components/ReservationCard.tsx
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import Reservation from '../types/reservation';
-import config from '../config';
+import { checkInReservation, checkOutReservation, cancelReservation } from '../services/getReservationService';
 
 interface ReservationCardProps {
   reservation: Reservation;
@@ -17,109 +18,18 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
     const currentTime = new Date().toLocaleTimeString();
     setCheckInTime(currentTime);
     setIsCheckedIn(true);
-
-    await fetch(`${config.apiUrl}/reservation/checkin`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id: idReservation }),
-    });
-
-    Swal.fire({
-      title: 'Check-In Realizado',
-      text: 'O check-in foi realizado com sucesso!',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
+    await checkInReservation(idReservation);
+    window.location.href = window.location.href; // Refresh the page
   };
 
   const handleCheckOut = async () => {
-    const currentTime = new Date().toLocaleTimeString();
-    onCheckout(Number(idReservation), currentTime);
-
-    await fetch(`${config.apiUrl}/reservation/checkout`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ tableID: idReservation }),
-    });
-
-    Swal.fire({
-      title: 'Check-Out Realizado',
-      text: 'O check-out foi realizado com sucesso!',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    });
+    await checkOutReservation(idReservation, onCheckout);
+    window.location.href = window.location.href; // Refresh the page
   };
 
   const handleCancel = async () => {
-    Swal.fire({
-      title: 'Tem certeza?',
-      text: 'Você realmente deseja cancelar esta reserva?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sim, cancelar!',
-      cancelButtonText: 'Não, manter'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const { value: motivo } = await Swal.fire({
-          title: 'Motivo do cancelamento',
-          input: 'radio',
-          inputOptions: {
-            'Cliente não comparece': 'Cliente não comparece',
-            'Outro motivo': 'Outro motivo'
-          },
-          inputValidator: (value) => {
-            if (!value) {
-              return 'Você precisa escolher uma opção!';
-            }
-          },
-          confirmButtonColor: '#d33',
-          cancelButtonColor: '#3085d6',
-          showCancelButton: true,
-          confirmButtonText: 'Enviar',
-          cancelButtonText: 'Cancelar'
-        });
-
-        if (motivo) {
-          let especificarMotivo = motivo;
-          if (motivo === 'Outro motivo') {
-            const { value: outroMotivo } = await Swal.fire({
-              title: 'Especifique o motivo',
-              input: 'text',
-              inputPlaceholder: 'Digite o motivo do cancelamento',
-              showCancelButton: true,
-              confirmButtonColor: '#d33',
-              cancelButtonColor: '#3085d6',
-              confirmButtonText: 'Enviar',
-              cancelButtonText: 'Cancelar'
-            });
-            if (outroMotivo) {
-              especificarMotivo = outroMotivo;
-            }
-          }
-         
-          await fetch(`${config.apiUrl}/reservation/cancellation`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: idReservation }),
-          });
-
-          Swal.fire({
-            title: 'Reserva Cancelada',
-            text: `A reserva foi cancelada. Motivo: ${especificarMotivo}`,
-            icon: 'success',
-            confirmButtonText: 'OK'
-          });
-        }
-      }
-    });
+    await cancelReservation(idReservation);
+    window.location.href = window.location.href; // Refresh the page
   };
 
   return (

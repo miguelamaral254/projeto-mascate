@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ReservationCard from './ReservationCard';
-import { fetchReservations } from '../services/fetchReservationService';
+import { fetchReservations } from '../services/getReservationService';
 import Reservation from '../types/reservation';
 
 const SearchReservationsPage: React.FC = () => {

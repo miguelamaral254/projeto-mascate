@@ -31,7 +31,7 @@ const ReservationForm: React.FC = () => {
     let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
     data.cpf = cpfFormatado;
     data.employeeId = Number(employeeId)
-    console.log(data); 
+    //console.log(data); 
 
     try {
       await createReservation(data);

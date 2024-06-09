@@ -1,4 +1,4 @@
-import { TableAvailability } from "../types/table";
+
 import tableAvailability from "../data/tableAvailability"
 
 const fetchAvailableTimes = (date: string): string[] => {

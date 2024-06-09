@@ -1,0 +1,37 @@
+"use client"
+import React, { useState, useEffect } from 'react';
+import { TableDTO } from '../types/ctable';
+import { getTables } from '../services/getTableService';
+
+const TableComponent: React.FC = () => {
+  const [tables, setTables] = useState<TableDTO[]>([]);
+
+  useEffect(() => {
+    const fetchTables = async () => {
+      try {
+        const fetchedTables = await getTables();
+        setTables(fetchedTables);
+      } catch (error) {
+        console.error('Erro ao buscar mesas:', error);
+      }
+    };
+
+    fetchTables();
+  }, []);
+
+  return (
+    <div className="p-6 bg-white shadow-lg rounded-lg m-4">
+      <h2 className="text-2xl font-bold mb-4">Mesas</h2>
+      <ul>
+        {tables.map((table, index) => (
+          <li key={index} className="mb-2 p-4 border rounded-lg">
+            <p><strong>Número:</strong> {table.number}</p>
+            <p><strong>Assentos:</strong> {table.seats}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TableComponent;
