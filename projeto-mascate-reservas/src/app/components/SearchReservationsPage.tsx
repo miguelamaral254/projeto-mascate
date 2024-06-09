@@ -1,8 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import ReservationCard from './ReservationCard';
-import { Reservation } from '../types/reservation';
 import { fetchReservations } from '../services/fetchReservationService';
+import Reservation from '../types/reservation';
 
 const SearchReservationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,8 +18,8 @@ const SearchReservationsPage: React.FC = () => {
     getReservations();
   }, []);
 
-  const handleCheckout = (reservationId: number, checkoutTime: string) => {
-    console.log(`Reservation ID: ${reservationId}, Checkout Time: ${checkoutTime}`);
+  const handleCheckout = (idReservation: number, checkoutTime: string) => {
+    console.log(`Reservation ID: ${idReservation}, Checkout Time: ${checkoutTime}`);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

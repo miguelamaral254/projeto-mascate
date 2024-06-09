@@ -31,8 +31,10 @@ const ReservationForm: React.FC = () => {
     data.date = selectedDate.toISOString().split('T')[0]; // Formatar a data
     data.time = selectedTime;
     let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
-    let phone
     data.cpf = cpfFormatado;
+    let phoneNumber = data.phoneNumber.replace(/[()\s-]/g, '');
+    data.cpf = cpfFormatado;
+    data.phoneNumber = phoneNumber;
     data.employeeId = Number(employeeId)
     console.log(data); 
 
@@ -88,7 +90,7 @@ const ReservationForm: React.FC = () => {
   };
 
   const handleTableSelect = (table: Table) => {
-    setValue('table', table.tableId); 
+    setValue('table',table.tableId); 
     setSelectedTable(table);
   };
 

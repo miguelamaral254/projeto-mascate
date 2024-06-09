@@ -1,24 +1,16 @@
-export interface Reservation {
+import { Table } from "./table";
+
+
+interface Reservation {
   idReservation: number;
-  tableId: {
-    tableID: number;
-    availability: boolean;
-    chairs: number;
-    type: string;
-    size: string;
-  };
-  employeeId: {
-    name: string;
-    reservationsMade: number;
-  };
-  cpf: {
-    name: string;
-    cpf: string;
-    phoneNumber: string;
-  };
+  tableId: number; // Adjusted to match the type in FormData
+  employeeId: number;
   name: string;
+  cpf: string;
   phoneNumber: string;
-  reservationDate: string;
+  datreservationDate: string;
   time: string;
   checkin: boolean;
 }
+
+export default Reservation;

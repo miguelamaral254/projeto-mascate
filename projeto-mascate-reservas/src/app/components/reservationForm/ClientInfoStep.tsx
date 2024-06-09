@@ -1,25 +1,23 @@
 "use client"
 import React, { useState } from 'react';
 import { UseFormRegister, UseFormWatch } from 'react-hook-form';
-import { FormData } from '../../types/formData';
-import ReactInputMask from 'react-input-mask';
+import InputMaskWrapper from '../InputMaskWrapper'; 
 import Btn from '../Btn';
 import Image from 'next/image';
-
-import logo from "@/../../public/images/Logo.png"
+import logo from "@/../../public/images/Logo.png";
+import { FormData } from '@/app/types/formData';
 
 interface ClientInfoStepProps {
   register: UseFormRegister<FormData>;
   watch: UseFormWatch<FormData>;
-  isStep1Complete :boolean;
+  isStep1Complete: boolean;
   handleNextStep: () => void;
-
 }
 
 const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handleNextStep }) => {
   const { name, cpf, phoneNumber, employeeId } = watch();
   const [nameFocused, setNameFocused] = useState(false);
-  const [cpfFocused, setCpfFocused] = useState(false); // Adicionado o estado para CPF
+  const [cpfFocused, setCpfFocused] = useState(false);
   const [phoneNumberFocused, setPhoneNumberFocused] = useState(false);
   const [employeeIdFocused, setEmployeeIdFocused] = useState(false);
 
@@ -51,7 +49,7 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
         </label>
       </div>
       <div className="mb-4 relative z-0">
-        <ReactInputMask
+        <InputMaskWrapper
           {...register('cpf', { required: true, pattern: /[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/ })}
           mask="999.999.999-99"
           inputMode="numeric"
@@ -65,7 +63,7 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
       </div>
       
       <div className="mb-4 relative z-0">
-        <ReactInputMask
+        <InputMaskWrapper
           {...register('phoneNumber', { required: true, pattern: /\(\d{2}\) \d{1} \d{4}-\d{4}/ })}
           mask="(99) 9 9999-9999"
           inputMode="numeric"

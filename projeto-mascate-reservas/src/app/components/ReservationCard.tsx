@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { Reservation } from '../types/reservation';
+import Reservation from '../types/reservation';
+import config from '../config';
 
 interface ReservationCardProps {
   reservation: Reservation;
-  onCheckout: (reservationId: number, checkoutTime: string) => void;
+  onCheckout: (idReservation: number, checkoutTime: string) => void;
 }
 
 const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onCheckout }) => {
@@ -18,7 +19,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
     setIsCheckedIn(true);
 
     // Envia os dados de check-in para o backend
-    await fetch('/api/checkin', {
+    await fetch(`${config.apiUrl}/reservation/checkin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,13 +34,13 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
       confirmButtonText: 'OK'
     });
   };
-
+const costumerName = name;
   const handleCheckOut = async () => {
     const currentTime = new Date().toLocaleTimeString();
-    onCheckout(idReservation, currentTime);
+    onCheckout(Number(idReservation), currentTime);
 
     // Envia os dados de check-out para o backend
-    await fetch('/api/checkout', {
+    await fetch(`${config.apiUrl}/reservationcheckout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +105,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
             }
           }
           // Envia os dados de cancelamento para o backend
-          await fetch('/api/cancel', {
+          await fetch(`${config.apiUrl}/reservation/cancellation`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -121,16 +122,21 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 m-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
       <h2 className="text-xl font-semibold mb-2">Reserva ID: {idReservation}</h2>
-      <p>Cliente: {name}</p>
-      <p>CPF: {cpf.cpf}</p>
+      <p>Cliente: {costumerName}</p>
+      {/* Accessing nested properties */}
+      <p>CPF: {cpf}</p>
       <p>Número de Telefone: {phoneNumber}</p>
-      <p>Funcionário: {employeeId.name}</p>
+      <p>Funcionário: {employeeId}</p>
       <p>ID da Reserva: {idReservation}</p>
-      <p>Mesa Número: {tableId.tableID}</p>
+      {/* Accessing nested properties */}
+      <p>Mesa Número: {tableId}</p>
       <p>Data: {reservationDate}</p>
       <p>Hora: {time}</p>
+      {/* Error might be here */}
       {checkInTime && <p>Check-in Time: {checkInTime}</p>}
+      {/* Check if it should be rendered */}
       <div className='w-full flex gap-5 justify-between p-4'>
+        {/* Check if isCheckedIn is false */}
         {!isCheckedIn ? (
           <button onClick={handleCheckIn} className='bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300 mr-2'>Check In</button>
         ) : (

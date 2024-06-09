@@ -1,12 +1,10 @@
-import { Table } from './table';
-
 export interface FormData {
-  name: string;
+  table: number;
+  employeeId: number;
+  costumerName: string;
   cpf: string;
   phoneNumber: string;
-  date: Date;
+  date: string;
   time: string;
-  table: Table | null;
-  employeeId: string;
-  reservationId: string;
+
 }

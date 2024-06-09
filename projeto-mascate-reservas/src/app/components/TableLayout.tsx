@@ -4,21 +4,19 @@ import tableAvailability from '../data/tableAvailability';
 import { Table } from '../types/table';
 import { TableLayoutProps } from '@/app/types/TableLayoutProps';
 
-
-
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, tableSize }) => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
 
   const formattedDate = date.toISOString().split('T')[0];
   const tables = tableAvailability[formattedDate]?.[time as keyof typeof tableAvailability[typeof formattedDate]];
 
-  const handleTableClick = (type: string, number: number, size: string, numChairs: number) => {
-    setSelectedTable({ type, number, size, numChairs });
+  const handleTableClick = (tableId: number, number: number, size: string) => {
+    setSelectedTable({ type: size, tableId, size, chairs: size === 'G' ? 6 : size === 'M' ? 4 : 2 });
   };
 
   const handleSelectTable = (numChairs: number) => {
     if (selectedTable) {
-      onTableSelect({ ...selectedTable, numChairs });
+      onTableSelect({ ...selectedTable, chairs: numChairs });
     }
   };
 
@@ -36,13 +34,13 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
           }
 
           // Se o tamanho da mesa corresponder ao tamanho selecionado, renderiza as mesas desse tamanho
-          return numbers.map((number: number) => (
+          return numbers.map(({ tableId, number }: { tableId: number; number: number }) => (
             <div
               key={`${size}-${number}`}
               className="p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300"
-              onClick={() => handleTableClick(size, number, size, selectedTable ? selectedTable.numChairs : 0)}
+              onClick={() => handleTableClick(tableId, number, size)}
             >
-              Mesa {number} (Tamanho: {size}) 
+              Mesa {number} (Tamanho: {size})
             </div>
           ));
         })}
