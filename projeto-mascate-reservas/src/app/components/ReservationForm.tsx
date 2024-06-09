@@ -25,14 +25,11 @@ const ReservationForm: React.FC = () => {
   const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {
-    data.table = selectedTable?.tableId || 0; // Atribua apenas o número da mesa
-    data.date = selectedDate.toISOString().split('T')[0]; // Formatar a data
+    data.table = selectedTable?.tableId || 0; 
+    data.date = selectedDate.toISOString().split('T')[0]; 
     data.time = selectedTime;
     let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
     data.cpf = cpfFormatado;
-    //let phoneNumber = data.phoneNumber.replace(/[()\s-]/g, '');
-    data.cpf = cpfFormatado;
-    //data.phoneNumber = phoneNumber;
     data.employeeId = Number(employeeId)
     console.log(data); 
 
