@@ -25,8 +25,9 @@ const TableComponent: React.FC = () => {
       <ul>
         {tables.map((table, index) => (
           <li key={index} className="mb-2 p-4 border rounded-lg">
-            <p><strong>Número:</strong> {table.number}</p>
-            <p><strong>Assentos:</strong> {table.seats}</p>
+            <p><strong>Id da mesa:</strong> {table.tableID}</p>
+            <p><strong>Tamanho:</strong> {table.size}</p>
+            <p><strong>Assentos:</strong> {table.chairs}</p>
           </li>
         ))}
       </ul>

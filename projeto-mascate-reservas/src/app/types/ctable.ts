@@ -1,7 +1,9 @@
-// types/table.ts
 export interface TableDTO {
-    number: number;
-    seats: number;
+  tableID: number;
+  availability: boolean;
+    type: string;
+    size: string;
+    chairs: number;
   }
   
   export interface CheckoutDTO {
