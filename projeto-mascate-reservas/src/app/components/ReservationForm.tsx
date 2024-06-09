@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-import { v4 as uuidv4 } from 'uuid';
 import { Table } from '../types/table';
-import { Reservation } from '../types/reservation'
-import { FormData } from '../types/formData';
 import ConfirmationStep from './reservationForm/ConfirmationStep';
 import ClientInfoStep from './reservationForm/ClientInfoStep';
 import CalendarStep from './reservationForm/CalendarStep';
 import TableSizeStep from './reservationForm/TableSizeStep';
 import TableStep from './reservationForm/TableStep';
-import { createReservation } from '../services/reservationService';
+import { createReservation } from '../services/createReservationService';
+import { FormData } from '../types/formData';
+//import { v4 as uuidv4 } from 'uuid';
 
 const ReservationForm: React.FC = () => {
   const { register, handleSubmit, setValue, watch } = useForm<FormData>();
@@ -26,30 +25,25 @@ const ReservationForm: React.FC = () => {
   const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {
-    const reservationId = uuidv4();
-    data.reservationId = reservationId;
-
-    const reservationData: Reservation = {
-      customerName: data.name,
-      cpf: data.cpf,
-      phoneNumber: data.phoneNumber,
-      employeeId: Number(data.employeeId),
-      reservationId: reservationId,
-      date: selectedDate?.toISOString().split('T')[0] || '',
-      time: selectedTime,
-      tableId: selectedTable ? selectedTable.number : 0, 
-      id: 0,
-    };
-  
+  //  const reservationId = uuidv4();
+  //data.idReservation = reservationId;
+    data.table = selectedTable?.tableId || 0; // Atribua apenas o número da mesa
+    data.date = selectedDate.toISOString().split('T')[0]; // Formatar a data
+    data.time = selectedTime;
+    let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
+    let phone
+    data.cpf = cpfFormatado;
+    data.employeeId = Number(employeeId)
+    console.log(data); 
 
     try {
-      await createReservation(reservationData);
+      await createReservation(data);
 
       const confirmationText =
-        `Reserva para a mesa ${selectedTable?.number} com ${selectedTable?.numChairs} cadeiras<br/>` +
+        `Reserva para a mesa ${selectedTable?.tableId} com ${selectedTable?.chairs} cadeiras<br/>` +
         `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
         `foi realizada com sucesso.<br/>` +
-        `Nome do cliente: ${customerName}<br/>` +
+        `Nome do cliente: ${name}<br/>` +
         `ID do funcionário: ${employeeId}`;
 
       Swal.fire({
@@ -94,7 +88,7 @@ const ReservationForm: React.FC = () => {
   };
 
   const handleTableSelect = (table: Table) => {
-    setValue('table', table);
+    setValue('table', table.tableId); 
     setSelectedTable(table);
   };
 
@@ -134,15 +128,14 @@ const ReservationForm: React.FC = () => {
       )}
       {currentStep === 4 && (
         <TableStep
-        handleNextStep={handleNextStep}
-        handlePreviousStep={handlePreviousStep}
-        handleTableSelect={handleTableSelect}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
-        selectedTable={selectedTable}
-        tableSize={tableSize}
-      />
-
+          handleNextStep={handleNextStep}
+          handlePreviousStep={handlePreviousStep}
+          handleTableSelect={handleTableSelect}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          selectedTable={selectedTable}
+          tableSize={tableSize}
+        />
       )}
       {currentStep === 5 && (
         <ConfirmationStep
@@ -151,7 +144,7 @@ const ReservationForm: React.FC = () => {
           selectedTable={selectedTable}
           onPreviousStep={handlePreviousStep}
           onSubmit={handleSubmit(onSubmit)}
-          customerName={customerName}
+          name={customerName}
           employeeId={employeeId}
         />
       )}
