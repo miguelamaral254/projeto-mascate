@@ -5,7 +5,7 @@ interface Reservation {
   idReservation: number;
   tableId: number; // Adjusted to match the type in FormData
   employeeId: number;
-  customerName: string;
+  name: string;
   cpf: string;
   phoneNumber: string;
   reservationDate: string;
