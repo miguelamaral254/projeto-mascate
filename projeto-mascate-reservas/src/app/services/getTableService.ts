@@ -1,4 +1,3 @@
-// services/tableService.ts
 import axios from 'axios';
 import config from '../config';
 import { TableDTO, CheckoutDTO } from '../types/ctable';

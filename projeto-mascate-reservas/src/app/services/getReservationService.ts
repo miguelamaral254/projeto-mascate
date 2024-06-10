@@ -4,7 +4,7 @@ import config from '../config';
 
 export const fetchReservations = async () => {
   try {
-    const response = await axios.get(`${config.apiUrl}/reservation/reservationList`);
+    const response = await axios.get(`${config.apiUrl}/reservation/getReservationList`);
     return response.data;
   } catch (error) {
     console.error('Erro ao buscar as reservas:', error);

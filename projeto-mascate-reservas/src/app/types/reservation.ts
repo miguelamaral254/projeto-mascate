@@ -1,13 +1,13 @@
+import { Customer } from "./customer";
+import { Employee } from "./employee";
 import { Table } from "./table";
 
 
 interface Reservation {
   idReservation: number;
-  tableId: number; // Adjusted to match the type in FormData
-  employeeId: number;
-  name: string;
-  cpf: string;
-  phoneNumber: string;
+  table: Table; 
+  employee: Employee;
+  customer: Customer
   reservationDate: string;
   time: string;
   checkin: boolean;

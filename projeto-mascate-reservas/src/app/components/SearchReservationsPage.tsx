@@ -13,6 +13,7 @@ const SearchReservationsPage: React.FC = () => {
       const reservations = await fetchReservations();
       console.log('Fetched Reservations:', reservations);
       setFetchedReservations(reservations);
+  
     };
 
     getReservations();
@@ -27,7 +28,7 @@ const SearchReservationsPage: React.FC = () => {
   };
 
   const searchResults = fetchedReservations.filter((reservation) => {
-    const customerName = reservation.name.toLowerCase();
+    const customerName = reservation.customer.customerName.toLowerCase();
     const term = searchTerm.toLowerCase();
     return customerName.includes(term);
   });

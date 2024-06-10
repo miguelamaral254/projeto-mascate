@@ -1,7 +1,6 @@
 // types/employee.ts
-export interface EmployeeDTO {
-    name: string;
-    role: string;
-    phoneNumber: string;
-  }
-  
+export interface Employee {
+  employeeId: number;
+  name: string;
+  reservationMade: number;
+}

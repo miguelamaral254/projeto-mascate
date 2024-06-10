@@ -1,5 +1,5 @@
 "use client";
-import ClientComponent from "./components/ClientComponent";
+import ClientComponent from "./components/CustomerComponent";
 import EmployeeComponent from "./components/EmployeeComponent";
 import Navbar from "./components/Navbar";
 import TableComponent from "./components/TableComponent";

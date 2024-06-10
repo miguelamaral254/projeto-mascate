@@ -1,10 +1,10 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { EmployeeDTO } from '../types/employee';
+import { Employee } from '../types/employee';
 import { getEmployees } from '../services/getEmployeeService';
 
 const EmployeeComponent: React.FC = () => {
-  const [employees, setEmployees] = useState<EmployeeDTO[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -25,9 +25,9 @@ const EmployeeComponent: React.FC = () => {
       <ul>
         {employees.map((employee, index) => (
           <li key={index} className="mb-2 p-4 border rounded-lg">
+            <p><strong>Id:</strong> {employee.employeeId}</p>
             <p><strong>Nome:</strong> {employee.name}</p>
-            <p><strong>Cargo:</strong> {employee.role}</p>
-            <p><strong>Telefone:</strong> {employee.phoneNumber}</p>
+            
           </li>
         ))}
       </ul>

@@ -28,10 +28,13 @@ const ReservationForm: React.FC = () => {
     data.table = selectedTable?.tableId || 0; 
     data.date = selectedDate.toISOString().split('T')[0]; 
     data.time = selectedTime;
-    let cpfFormatado = data.cpf.replace(/[.-]/g, ''); 
-    data.cpf = cpfFormatado;
+    const formatCpf = (cpf: string) => cpf.replace(/[.-]/g, '');
+    const formatPhoneNumber = (phoneNumber: string) => phoneNumber.replace(/[()\s-]/g, '');
+    
+    data.cpf = formatCpf(data.cpf);
+    data.phoneNumber = formatPhoneNumber(data.phoneNumber);
     data.employeeId = Number(employeeId)
-    //console.log(data); 
+    console.log(data); 
 
     try {
       await createReservation(data);
