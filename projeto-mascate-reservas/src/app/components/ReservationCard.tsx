@@ -16,23 +16,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
   const [checkInTime, setCheckInTime] = useState<string | null>(null);
   const [employeeName, setEmployeeName] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getEmployee = async () => {
-      try {
-        if (employee) { // Verificar se employee está definido
-          const employees = await getEmployees();
-          const foundEmployee = employees.find(emp => emp.employeeId === employee.employeeId);
-          if (foundEmployee) {
-            setEmployeeName(foundEmployee.name);
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao buscar funcionários:', error);
-      }
-    };
-    getEmployee();
-  }, [employee]);
-
   const handleCheckIn = async () => {
     const currentTime = new Date().toLocaleTimeString();
     setCheckInTime(currentTime);
@@ -56,8 +39,8 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
       <h2 className="text-xl font-semibold mb-2">Reserva ID: {idReservation}</h2>
       <p>Cliente: {customer.customerName}</p>
       <p>CPF: {customer.cpf}</p>
-      <p>Número de Telefone: {}</p>
-      <p>Funcionário: {employeeName}</p>
+      <p>Número de Telefone: {customer.phoneNumber}</p>
+      <p>Funcionário: {employee.name}</p>
       <p>ID da Reserva: {idReservation}</p>
       <p>Mesa Número: {table.tableId}</p>
       <p>Data: {reservationDate}</p>
