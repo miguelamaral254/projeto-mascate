@@ -1,6 +1,6 @@
 export interface Table {
   type: string;
-  tableId: number;
+  tableID: number;
   size: string;
   chairs: number;
 }

@@ -10,8 +10,8 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
   const formattedDate = date.toISOString().split('T')[0];
   const tables = tableAvailability[formattedDate]?.[time as keyof typeof tableAvailability[typeof formattedDate]];
 
-  const handleTableClick = (tableId: number, number: number, size: string) => {
-    setSelectedTable({ type: size, tableId, size, chairs: size === 'G' ? 6 : size === 'M' ? 4 : 2 });
+  const handleTableClick = (tableID: number, number: number, size: string) => {
+    setSelectedTable({ type: size, tableID, size, chairs: size === 'G' ? 6 : size === 'M' ? 4 : 2 });
   };
 
   const handleSelectTable = (numChairs: number) => {

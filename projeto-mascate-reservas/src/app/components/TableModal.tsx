@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Btn from './Btn';
 
 interface TableModalProps {
-  table: { type: string; tableId: number; size: string; chairs: number };
+  table: { type: string; tableID: number; size: string; chairs: number };
   onClose: () => void;
   onSelect: (chairs: number) => void;
 }
@@ -35,14 +35,14 @@ const TableModal: React.FC<TableModalProps> = ({ table, onClose, onSelect }) => 
   const handleSelectTable = () => {
     onSelect(chairs);
     onClose();
-    Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.tableId} com ${chairs} cadeiras.`, 'success'); // Exibe um alerta informando a seleção
+    Swal.fire('Mesa Selecionada', `Você selecionou a mesa ${table.tableID} com ${chairs} cadeiras.`, 'success'); // Exibe um alerta informando a seleção
   };
 
   return createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-black p-5 rounded-lg text-yellow-300/75 ">
         <h2 className="text-xl text-yellow-300 font-bold">Detalhes da Mesa</h2>
-        <p>Mesa Número: {table.tableId}</p>
+        <p>Mesa Número: {table.tableID}</p>
         <p>Tamanho: {table.size}</p>
         <p>Número de Cadeiras: {chairs}</p>
         <div className="mt-4 gap-2 flex justify-end">

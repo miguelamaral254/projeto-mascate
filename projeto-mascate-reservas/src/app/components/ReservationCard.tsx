@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Reservation from '../types/reservation';
 import { checkInReservation, checkOutReservation, cancelReservation } from '../services/getReservationService';
 import { getEmployees } from '../services/getEmployeeService';
+import { stringify } from 'querystring';
 
 interface ReservationCardProps {
   reservation: Reservation;
@@ -15,6 +16,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
   const [isCheckedIn, setIsCheckedIn] = useState(checkin);
   const [checkInTime, setCheckInTime] = useState<string | null>(null);
   const [employeeName, setEmployeeName] = useState<string | null>(null);
+  const tableNumber = String(table?.tableID || '');
+  console.log(reservation.table);
+
 
   const handleCheckIn = async () => {
     const currentTime = new Date().toLocaleTimeString();
@@ -34,6 +38,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
     window.location.href = window.location.href;
   };
 
+
+
+
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 m-4 w-full md:w-1/2 lg:w-1/3 xl:w-1/4">
       <h2 className="text-xl font-semibold mb-2">Reserva ID: {idReservation}</h2>
@@ -42,7 +49,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, onChecko
       <p>Número de Telefone: {customer.phoneNumber}</p>
       <p>Funcionário: {employee.name}</p>
       <p>ID da Reserva: {idReservation}</p>
-      <p>Mesa Número: {table.tableId}</p>
+      <p>Mesa Número: {tableNumber}</p>
       <p>Data: {reservationDate}</p>
       <p>Hora: {time}</p>
       {checkInTime && <p>Check-in Time: {checkInTime}</p>}
