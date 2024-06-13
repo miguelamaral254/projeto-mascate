@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TableModal from './TableModal';
 import { getTables } from '../services/getTableService'; // Importe sua função getTables
-import { Table } from '../types/table';
-import { TableLayoutProps } from '@/app/types/TableLayoutProps';
+import { Table, TableLayoutProps } from '../types/table';
+
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, tableSize }) => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);

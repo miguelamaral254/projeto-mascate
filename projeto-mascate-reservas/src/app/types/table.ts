@@ -18,5 +18,11 @@ export interface Table {
         P: { tableId: number, number: number }[];
       };
     };
-  
+
+    export interface TableLayoutProps {
+      date: Date;
+      time: string;
+      onTableSelect: (table: Table) => void;
+      tableSize: string;
+    }
   
