@@ -1,10 +1,10 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { TableDTO } from '../types/ctable';
+import { Table } from '../types/table';
 import { getTables } from '../services/getTableService';
 
 const TableComponent: React.FC = () => {
-  const [tables, setTables] = useState<TableDTO[]>([]);
+  const [tables, setTables] = useState<Table[]>([]);
 
   useEffect(() => {
     const fetchTables = async () => {

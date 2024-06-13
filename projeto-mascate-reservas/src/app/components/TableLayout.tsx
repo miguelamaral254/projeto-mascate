@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableModal from './TableModal';
-import tableAvailability from '../data/tableAvailability';
+import { getTables } from '../services/getTableService'; // Importe sua função getTables
 import { Table } from '../types/table';
 import { TableLayoutProps } from '@/app/types/TableLayoutProps';
 
 const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, tableSize }) => {
   const [selectedTable, setSelectedTable] = useState<Table | null>(null);
+  const [tables, setTables] = useState<Table[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const formattedDate = date.toISOString().split('T')[0];
-  const tables = tableAvailability[formattedDate]?.[time as keyof typeof tableAvailability[typeof formattedDate]];
+  useEffect(() => {
+    const fetchTables = async () => {
+      setLoading(true);
+      try {
+        const fetchedTables = await getTables(); // Busca as mesas da API
+        setTables(fetchedTables);
+      } catch (error) {
+        console.error('Erro ao buscar mesas:', error);
+      }
+      setLoading(false);
+    };
+
+    fetchTables();
+  }, []);
 
   const handleTableClick = (tableID: number, number: number, size: string) => {
     setSelectedTable({ type: size, tableID, size, chairs: size === 'G' ? 6 : size === 'M' ? 4 : 2 });
@@ -20,30 +34,37 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
     }
   };
 
-  if (!tables) {
-    return <div className="text-red-500">Não há mesas disponíveis para esta data e horário.</div>;
+  if (loading) {
+    return <div className="text-blue-500">Carregando mesas...</div>;
+  }
+
+  if (!tables || tables.length === 0) {
+    return <div className="text-red-500">Não há mesas disponíveis.</div>;
+  }
+
+  // Filtra as mesas disponíveis para a data e hora selecionadas e pelo tamanho desejado
+  const filteredTables = tables.filter(table => {
+    // Lógica para verificar se a mesa está disponível para a data e hora selecionadas
+    // Substitua esta lógica de exemplo pela lógica específica do seu aplicativo
+    return <table className="availability"></table> && table.size === tableSize;
+  });
+
+  if (filteredTables.length === 0) {
+    return <div className="text-red-500">Não há mesas disponíveis para esta data, horário e tamanho.</div>;
   }
 
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {Object.entries(tables).map(([size, numbers]) => {
-          // Verifica se o tamanho da mesa atual é igual ao tamanho selecionado
-          if (size !== tableSize) {
-            return null; // Retorna null se o tamanho não corresponder ao tamanho selecionado
-          }
-
-          // Se o tamanho da mesa corresponder ao tamanho selecionado, renderiza as mesas desse tamanho
-          return numbers.map(({ tableId, number }: { tableId: number; number: number }) => (
-            <div
-              key={`${size}-${number}`}
-              className="p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300"
-              onClick={() => handleTableClick(tableId, number, size)}
-            >
-              Mesa {number} (Tamanho: {size})
-            </div>
-          ));
-        })}
+        {filteredTables.map(({ tableID, type }: Table) => (
+          <div
+            key={`${type}-${tableID}`}
+            className="p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300"
+            onClick={() => handleTableClick(tableID, tableID, type)}
+          >
+            Mesa {tableID} (Tamanho: {type})
+          </div>
+        ))}
       </div>
       {selectedTable && (
         <TableModal

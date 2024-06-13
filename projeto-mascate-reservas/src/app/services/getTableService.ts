@@ -1,8 +1,8 @@
 import axios from 'axios';
 import config from '../config';
-import { TableDTO, CheckoutDTO } from '../types/ctable';
+import { Table, Checkout } from '../types/table';
 
-export const getTables = async (): Promise<TableDTO[]> => {
+export const getTables = async (): Promise<Table[]> => {
   try {
     const response = await axios.get(`${config.apiUrl}/table/getTable`);
     return response.data;

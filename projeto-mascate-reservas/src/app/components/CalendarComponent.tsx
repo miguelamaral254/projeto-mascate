@@ -8,23 +8,8 @@ interface Props {
   onDateChange: (date: Date) => void;
 }
 
-// Substituir por endpoint de mesas disponíveis!
-import tableAvailability from '../data/tableAvailability';
-
 const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
   const [date, setDate] = useState<Date | null>(new Date());
-
-  const isDateTimeAvailable = (date: Date, time: string): boolean => {
-    const formattedDate = format(date, 'yyyy-MM-dd');
-    const availableTimes = tableAvailability[formattedDate];
-
-
-    if (!availableTimes) {
-      return false;
-    }
-
-    return availableTimes[time] !== undefined;
-  };
 
   const handleDateChange: CalendarProps['onChange'] = (value) => {
     if (value instanceof Date) {
@@ -41,27 +26,6 @@ const CalendarComponent: React.FC<Props> = ({ onDateChange }) => {
         locale="pt-BR"
         formatDay={(locale, date) => format(date, 'd', { locale: ptBR })}
         className="w-full text-primary"
-        tileDisabled={({ date }) => {
-          const formattedDate = format(date, 'yyyy-MM-dd');
-          return !tableAvailability[formattedDate];
-        }}
-        tileClassName={({ date, view }) => {
-          if (view === 'month') {
-            const formattedDate = format(date, 'yyyy-MM-dd');
-            return tableAvailability[formattedDate] ? 'available' : 'unavailable';
-          }
-          return '';
-        }}
-        tileContent={({ date, view }) => {
-          if (view === 'month') {
-            const formattedDate = format(date, 'yyyy-MM-dd');
-            const availableTimes = tableAvailability[formattedDate];
-            if (availableTimes) {
-              return <div className='text-blue-300'>{Object.keys(availableTimes).length} horários disponíveis</div>;
-            }
-          }
-          return null;
-        }}
       />
     </div>
   );

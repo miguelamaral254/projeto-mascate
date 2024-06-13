@@ -18,7 +18,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
       <h2 className="text-xl font-semibold mb-4">Confirmação</h2>
       <p>Data: {selectedDate.toISOString().split('T')[0]}</p>
       <p>Hora: {selectedTime}</p>
-      <p>Mesa: {selectedTable?.tableId} ({selectedTable?.chairs} cadeiras)</p>
+      <p>Mesa: {selectedTable?.tableID} ({selectedTable?.chairs} cadeiras)</p>
       <p>Nome do Cliente: {customerName}</p>
       <p>ID do Funcionário: {employeeId}</p>
       <div className="flex justify-between mt-4">

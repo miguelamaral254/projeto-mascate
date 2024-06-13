@@ -25,7 +25,7 @@ const ReservationForm: React.FC = () => {
   const isStep3Complete = tableSize !== '';
 
   const onSubmit = async (data: FormData) => {
-    data.table = selectedTable?.tableId || 0; 
+    data.table = selectedTable?.tableID || 0; 
     data.date = selectedDate.toISOString().split('T')[0]; 
     data.time = selectedTime;
     const formatCpf = (cpf: string) => cpf.replace(/[.-]/g, '');
@@ -40,7 +40,7 @@ const ReservationForm: React.FC = () => {
       await createReservation(data);
 
       const confirmationText =
-        `Reserva para a mesa ${selectedTable?.tableId} com ${selectedTable?.chairs} cadeiras<br/>` +
+        `Reserva para a mesa ${selectedTable?.tableID} com ${selectedTable?.chairs} cadeiras<br/>` +
         `no dia ${selectedDate?.toISOString().split('T')[0]} às ${selectedTime}<br/>` +
         `foi realizada com sucesso.<br/>` +
         `Nome do cliente: ${customerName}<br/>` +
@@ -88,7 +88,7 @@ const ReservationForm: React.FC = () => {
   };
 
   const handleTableSelect = (table: Table) => {
-    setValue('table',table.tableId); 
+    setValue('table',table.tableID); 
     setSelectedTable(table);
   };
 
