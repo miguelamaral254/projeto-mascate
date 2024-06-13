@@ -24,8 +24,13 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
     fetchTables();
   }, []);
 
-  const handleTableClick = (tableID: number, number: number, size: string) => {
-    setSelectedTable({ type: size, tableID, size, chairs: size === 'G' ? 6 : size === 'M' ? 4 : 2 });
+  const handleTableClick = (tableID: number, size: string) => {
+    const clickedTable = tables.find(table => table.tableID === tableID && table.size === size);
+    if (clickedTable) {
+      setSelectedTable(clickedTable);
+    } else {
+      console.error(`Mesa com ID ${tableID} e tamanho ${size} não encontrada.`);
+    }
   };
 
   const handleSelectTable = (numChairs: number) => {
@@ -46,7 +51,7 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
   const filteredTables = tables.filter(table => {
     // Lógica para verificar se a mesa está disponível para a data e hora selecionadas
     // Substitua esta lógica de exemplo pela lógica específica do seu aplicativo
-    return <table className="availability"></table> && table.size === tableSize;
+    return table.availability && table.size === tableSize;
   });
 
   if (filteredTables.length === 0) {
@@ -56,13 +61,13 @@ const TableLayout: React.FC<TableLayoutProps> = ({ date, time, onTableSelect, ta
   return (
     <div className="mt-4">
       <div className="grid grid-cols-3 gap-4">
-        {filteredTables.map(({ tableID, type }: Table) => (
+        {filteredTables.map(({ tableID, size }: Table) => (
           <div
-            key={`${type}-${tableID}`}
+            key={`${size}-${tableID}`}
             className="p-4 rounded-lg cursor-pointer transition duration-300 bg-green-200 hover:bg-green-300"
-            onClick={() => handleTableClick(tableID, tableID, type)}
+            onClick={() => handleTableClick(tableID, size)}
           >
-            Mesa {tableID} (Tamanho: {type})
+            Mesa {tableID} (Tamanho: {size})
           </div>
         ))}
       </div>
