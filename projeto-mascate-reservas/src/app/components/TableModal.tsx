@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Btn from './Btn';
 
 interface TableModalProps {
-  table: { type: string; tableID: number; size: string; chairs: number };
+  table: { size: string; tableID: number; chairs: number };
   onClose: () => void;
   onSelect: (chairs: number) => void;
 }

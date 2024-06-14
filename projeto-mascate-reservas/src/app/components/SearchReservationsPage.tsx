@@ -1,19 +1,23 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import ReservationCard from './ReservationCard';
+import ReservationCategoryCard from './reservationSearch/ReservationCategoryCard';
+import ReservationsForToday from './reservationSearch/ReservationsForToday';
+import ActiveReservations from './reservationSearch/ActiveReservations';
+import CompletedReservations from './reservationSearch/CompletedReservations';
 import { fetchReservations } from '../services/getReservationService';
 import Reservation from '../types/reservation';
+
 
 const SearchReservationsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [fetchedReservations, setFetchedReservations] = useState<Reservation[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
     const getReservations = async () => {
       const reservations = await fetchReservations();
       console.log('Fetched Reservations:', reservations);
       setFetchedReservations(reservations);
-  
     };
 
     getReservations();
@@ -33,32 +37,57 @@ const SearchReservationsPage: React.FC = () => {
     return customerName.includes(term);
   });
 
+  const reservationsForToday = searchResults.filter(reservation => !reservation.checkin );
+  const activeReservations = searchResults.filter(reservation => reservation.checkin );
+  const completedReservations = searchResults.filter(reservation => reservation.checkin );
+
+  const renderSelectedCategory = () => {
+    switch (selectedCategory) {
+      case 'today':
+        return <ReservationsForToday reservations={reservationsForToday} onCheckout={handleCheckout} />;
+      case 'active':
+        return <ActiveReservations reservations={activeReservations} onCheckout={handleCheckout} />;
+      case 'completed':
+        return <CompletedReservations reservations={completedReservations} onCheckout={handleCheckout} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="container justify-center items-center mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Buscar Reservas</h1>
-      <form onSubmit={handleSubmit} className="mb-4">
-        <div className='flex'>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Digite o nome do cliente..."
-            className="border border-gray-300 rounded-md p-2 w-72"
-          />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">
-            Buscar
-          </button>
+      {!selectedCategory ? (
+        <div className="flex flex-col w-full min-h-96 items-center p-10">
+          <h1 className="text-2xl font-bold mb-4">Selecione uma Categoria de Reserva</h1>
+          <div className="flex justify-around w-full">
+            <ReservationCategoryCard
+              imageSrc="/images/incomeReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              title="Reservas para hoje"
+              description="Visualize todas as reservas para hoje."
+              onClick={() => setSelectedCategory('today')}
+            />
+            <ReservationCategoryCard
+              imageSrc="/images/activatedReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              title="Reservas ativas no momento"
+              description="Visualize todas as reservas ativas no momento."
+              onClick={() => setSelectedCategory('active')}
+            />
+            <ReservationCategoryCard
+              imageSrc="/images/completedReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              title="Reservas finalizadas"
+              description="Visualize todas as reservas finalizadas."
+              onClick={() => setSelectedCategory('completed')}
+            />
+          </div>
         </div>
-      </form>
-      <div className="flex flex-wrap">
-        {searchResults.map((reservation) => (
-          <ReservationCard
-            key={reservation.idReservation}
-            reservation={reservation}
-            onCheckout={handleCheckout}
-          />
-        ))}
-      </div>
+      ) : (
+        <div className="w-full">
+          <button onClick={() => setSelectedCategory(null)} className="bg-blue-500 text-white px-4 py-2 rounded-md mb-4">
+            Voltar
+          </button>
+          {renderSelectedCategory()}
+        </div>
+      )}
     </div>
   );
 };

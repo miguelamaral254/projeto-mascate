@@ -13,6 +13,7 @@ interface ClientInfoStepProps {
   isStep1Complete: boolean;
   handleNextStep: () => void;
 }
+const goBack = () => { return window.location.href = "/";}
 
 const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handleNextStep }) => {
   const { customerName, cpf, phoneNumber, employeeId } = watch();
@@ -97,8 +98,9 @@ const ClientInfoStep: React.FC<ClientInfoStepProps> = ({ register, watch, handle
       </div>
       
       <div className="mt-4 flex justify-between">
-        <button className='text-white bg-red-600 hover:bg-red-500 p-3 rounded-md'>Cancelar</button>
-        <Btn onClick={handleNextStep} text='next' disabled={!isStep1Complete} />
+        <button className='text-white bg-red-600 hover:bg-red-500 p-3 rounded-md' 
+        onClick={goBack}>Cancelar</button>
+        <Btn onClick={handleNextStep} text='Próximo' disabled={!isStep1Complete} />
       </div>
     </div>
   );

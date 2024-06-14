@@ -22,7 +22,7 @@ const ConfirmationStep: React.FC<ConfirmationStepProps> = ({
       <p>Nome do Cliente: {customerName}</p>
       <p>ID do Funcionário: {employeeId}</p>
       <div className="flex justify-between mt-4">
-        <Btn text='back' onClick={onPreviousStep}/>
+        <Btn text='Voltar' onClick={onPreviousStep}/>
         <button 
           type="button" 
           onClick={onSubmit} 

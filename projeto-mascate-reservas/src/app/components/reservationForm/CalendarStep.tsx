@@ -75,8 +75,8 @@ const CalendarStep: React.FC<CalendarStepProps> = ({
         </select>
       </div>
       <div className="flex w-full justify-between">
-        <Btn onClick={handlePreviousStep} text="back" />
-        <Btn onClick={handleNextStep} text="next" disabled={!selectedTime} />
+        <Btn onClick={handlePreviousStep} text="Anterior" />
+        <Btn onClick={handleNextStep} text="Próximo" disabled={!selectedTime} />
       </div>
     </div>
   );

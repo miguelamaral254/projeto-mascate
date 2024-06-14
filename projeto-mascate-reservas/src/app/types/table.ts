@@ -1,9 +1,8 @@
 export interface Table {
   tableID: number;
-  availability: boolean;
-    type: string;
-    size: string;
-    chairs: number;
+    availability: boolean;
+      size: string;
+      chairs: number;
   }
   
   export interface Checkout {
