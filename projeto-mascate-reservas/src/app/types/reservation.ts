@@ -11,6 +11,7 @@ interface Reservation {
   reservationDate: string;
   time: string;
   checkin: boolean;
+  checkout:boolean;
 }
 
 export default Reservation;

@@ -36,10 +36,10 @@ const SearchReservationsPage: React.FC = () => {
     const term = searchTerm.toLowerCase();
     return customerName.includes(term);
   });
-
-  const reservationsForToday = searchResults.filter(reservation => !reservation.checkin );
-  const activeReservations = searchResults.filter(reservation => reservation.checkin );
-  const completedReservations = searchResults.filter(reservation => reservation.checkin );
+  const reservationsForToday = searchResults.filter(reservation => !reservation.checkin && !reservation.checkout);
+  const activeReservations = searchResults.filter(reservation => reservation.checkin && !reservation.checkout);
+  const completedReservations = searchResults.filter(reservation => reservation.checkin && reservation.checkout);
+  
 
   const renderSelectedCategory = () => {
     switch (selectedCategory) {
@@ -61,19 +61,19 @@ const SearchReservationsPage: React.FC = () => {
           <h1 className="text-2xl font-bold mb-4">Selecione uma Categoria de Reserva</h1>
           <div className="flex justify-around w-full">
             <ReservationCategoryCard
-              imageSrc="/images/incomeReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              imageSrc="/images/incomeReservation.png" 
               title="Reservas para hoje"
               description="Visualize todas as reservas para hoje."
               onClick={() => setSelectedCategory('today')}
             />
             <ReservationCategoryCard
-              imageSrc="/images/activatedReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              imageSrc="/images/activatedReservation.png" 
               title="Reservas ativas no momento"
               description="Visualize todas as reservas ativas no momento."
               onClick={() => setSelectedCategory('active')}
             />
             <ReservationCategoryCard
-              imageSrc="/images/completedReservation.png" // Ajuste a URL conforme a estrutura do seu projeto
+              imageSrc="/images/completedReservation.png" 
               title="Reservas finalizadas"
               description="Visualize todas as reservas finalizadas."
               onClick={() => setSelectedCategory('completed')}

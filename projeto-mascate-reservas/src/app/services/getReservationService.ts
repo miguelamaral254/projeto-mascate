@@ -36,7 +36,6 @@ export const checkInReservation = async (idReservation: number) => {
 
 export const checkOutReservation = async (idReservation: number, onCheckout: (idReservation: number, checkoutTime: string) => void) => {
   const currentTime = new Date().toLocaleTimeString();
-  onCheckout(idReservation, currentTime);
 
   try {
     await axios.put(`${config.apiUrl}/reservation/checkout`, { tableID: idReservation });
@@ -46,8 +45,10 @@ export const checkOutReservation = async (idReservation: number, onCheckout: (id
       icon: 'success',
       confirmButtonText: 'OK'
     });
+
     if (result.isConfirmed) {
-      window.location.href = window.location.href; 
+      onCheckout(idReservation, currentTime); // Chamando onCheckout apenas após o sucesso da API
+      window.location.href = window.location.href;
     }
   } catch (error) {
     Swal.fire({
@@ -56,8 +57,10 @@ export const checkOutReservation = async (idReservation: number, onCheckout: (id
       icon: 'error',
       confirmButtonText: 'OK'
     });
+    console.error('Erro ao realizar o check-out:', error);
   }
 };
+
 
 export const cancelReservation = async (idReservation: number) => {
   const result = await Swal.fire({
